@@ -1,21 +1,27 @@
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 export default function DarkModeToggle() {
-  const [dark, setDark] = useState(
-    () => localStorage.theme === 'dark' || window.matchMedia('(prefers-color-scheme: dark)').matches
-  )
+  const { t } = useTranslation()
+  
+  const [darkMode, setDarkMode] = useState(() => {
+    const savedTheme = localStorage.getItem('theme')
+    if (savedTheme) return savedTheme === 'dark'
+    return window.matchMedia('(prefers-color-scheme: dark)').matches
+  })
 
   useEffect(() => {
-    document.documentElement.classList.toggle('dark', dark)
-    localStorage.theme = dark ? 'dark' : 'light'
-  }, [dark])
+    const root = document.documentElement
+    root.classList.toggle('dark', darkMode)
+    localStorage.setItem('theme', darkMode ? 'dark' : 'light')
+  }, [darkMode])
 
   return (
     <button
-      onClick={() => setDark(!dark)}
-      className="px-3 py-1 text-sm border rounded dark:border-zinc-500"
+      onClick={() => setDarkMode(!darkMode)}
+      className="px-3 py-1 text-sm border rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 transition"
     >
-      {dark ? '☀️ Light' : '🌙 Dark'}
+      {darkMode ? t('Light') : t('Dark')}
     </button>
   )
 }
