@@ -7,27 +7,30 @@ import Base64 from './pages/Base64'
 import Timestamp from './pages/Timestamp'
 import Uuid from './pages/Uuid'
 import RegexTester from './pages/RegexTester'
+import { ThemeProvider } from './context/ThemeContext'
 
 function App() {
   return (
-    <Router>
-      <div className="min-h-screen flex flex-col dark:bg-zinc-900 bg-white text-zinc-900 dark:text-zinc-100">
-        <Header />
-        <div className="flex flex-1 overflow-hidden">
-          <Sidebar />
-          <main className="flex-1 p-4 overflow-auto">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/json-formatter" element={<JsonFormatter />} />
-              <Route path="/base64" element={<Base64 />} />
-              <Route path="/timestamp" element={<Timestamp />} />
-              <Route path="/uuid" element={<Uuid />} />
-              <Route path="/regex-tester" element={<RegexTester />} />
-            </Routes>
-          </main>
+    <ThemeProvider>
+      <Router>
+        <div className="min-h-screen flex flex-col dark:bg-zinc-900 bg-white text-zinc-900 dark:text-zinc-100">
+          <Header />
+          <div className="flex flex-1 overflow-hidden">
+            <Sidebar />
+            <main className="flex-1 p-4 overflow-auto">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/json-formatter" element={<JsonFormatter />} />
+                <Route path="/base64" element={<Base64 />} />
+                <Route path="/timestamp" element={<Timestamp />} />
+                <Route path="/uuid" element={<Uuid />} />
+                <Route path="/regex-tester" element={<RegexTester />} />
+              </Routes>
+            </main>
+          </div>
         </div>
-      </div>
-    </Router>
+      </Router>
+    </ThemeProvider>
   )
 }
 

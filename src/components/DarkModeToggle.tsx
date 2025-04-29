@@ -1,27 +1,23 @@
-import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import ThemeContext from '../context/ThemeContext'
+import { useContext } from 'react'
 
 export default function DarkModeToggle() {
   const { t } = useTranslation()
   
-  const [darkMode, setDarkMode] = useState(() => {
-    const savedTheme = localStorage.getItem('theme')
-    if (savedTheme) return savedTheme === 'dark'
-    return window.matchMedia('(prefers-color-scheme: dark)').matches
-  })
+  const context = useContext(ThemeContext)
+  if (!context) {
+    throw new Error('ThemeContext must be used within a ThemeProvider')
+  }
 
-  useEffect(() => {
-    const root = document.documentElement
-    root.classList.toggle('dark', darkMode)
-    localStorage.setItem('theme', darkMode ? 'dark' : 'light')
-  }, [darkMode])
+  const { theme, toggleTheme } = context
 
   return (
     <button
-      onClick={() => setDarkMode(!darkMode)}
+      onClick={() => toggleTheme()}
       className="px-3 py-1 text-sm border rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 transition"
     >
-      {darkMode ? t('Light') : t('Dark')}
+      {theme ? t('header.light') : t('header.dark')}
     </button>
   )
 }
