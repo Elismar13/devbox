@@ -1,14 +1,13 @@
 import { useTranslation } from 'react-i18next'
+import PageContainer from '../components/PageContainer'
 
-const Home = () => {
+export default function Home() {
   const { t } = useTranslation()
 
   return (
-    <>
-      <h2 className="text-xl font-semibold">{t('header.title')}</h2>
-      <p className="text-sm">{t('header.chooseTool')}</p>
-    </>
+    <PageContainer>
+      <h2 className="text-2xl font-semibold">{t('DevBox')}</h2>
+      <p className="text-base">{t('ChooseTool')}</p>
+    </PageContainer>
   )
 }
-
-export default Home
