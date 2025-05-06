@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import CodeMirror from '@uiw/react-codemirror'
 import { json } from '@codemirror/lang-json'
 import { oneDark } from '@codemirror/theme-one-dark'
 import parseJson from 'json-parse-even-better-errors'
 import PageContainer from '../components/PageContainer'
+import ThemeContext from '../context/ThemeContext'
 
 export default function JsonFormatter() {
   const [input, setInput] = useState('')
@@ -11,12 +12,14 @@ export default function JsonFormatter() {
   const [improvements, setImprovements] = useState<string[]>([])
   const [error, setError] = useState<string | null>(null)
 
+  const themeContext = useContext(ThemeContext)
+  const isDark = themeContext?.theme === 'dark'
+
   const handleFormat = () => {
     try {
       let improved = input
       const notes: string[] = []
 
-      // Correção simples: adiciona aspas em chaves
       improved = improved.replace(
         /([{,]\s*)([a-zA-Z0-9_]+)(\s*:)/g,
         '$1"$2"$3'
@@ -38,43 +41,49 @@ export default function JsonFormatter() {
 
   return (
     <PageContainer>
-      <h1 className="text-xl font-bold mb-4">JSON Formatter</h1>
+      <h1 className="text-3xl font-semibold mb-2">JSON Formatter</h1>
+      <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
+        Esta ferramenta permite formatar e corrigir erros em seu código JSON. 
+        Ela adiciona aspas nas chaves ausentes e estrutura o JSON para facilitar a leitura.
+      </p>
 
-      <div className="flex flex-col sm:flex-row gap-4">
+      <div className="flex flex-col sm:flex-row gap-6">
         <div className="flex-1">
-          <h2 className="mb-1 text-sm font-medium">Entrada</h2>
+          <h2 className="text-md font-medium mb-2">Entrada</h2>
           <CodeMirror
             value={input}
             height="400px"
             extensions={[json()]}
-            theme={oneDark}
+            theme={isDark ? oneDark : 'light'}
             onChange={(value) => setInput(value)}
+            className="rounded-lg border border-gray-300 dark:border-gray-700 shadow-sm"
           />
         </div>
 
         <div className="flex-1">
-          <h2 className="mb-1 text-sm font-medium">Saída</h2>
+          <h2 className="text-md font-medium mb-2">Saída</h2>
           <CodeMirror
             value={output || (error ? `Erro: ${error}` : '')}
             height="400px"
             readOnly
             extensions={[json()]}
-            theme={oneDark}
+            theme={isDark ? oneDark : 'light'}
+            className="rounded-lg border border-gray-300 dark:border-gray-700 shadow-sm"
           />
         </div>
       </div>
 
       <button
-        className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+        className="mt-6 px-6 py-3 bg-blue-600 text-white text-lg rounded-md hover:bg-blue-700 transition duration-300"
         onClick={handleFormat}
       >
         Formatar JSON
       </button>
 
       {improvements.length > 0 && (
-        <div className="mt-4 text-green-600 text-sm">
+        <div className="mt-6 text-green-600 text-sm">
           <strong>Melhorias aplicadas:</strong>
-          <ul className="list-disc list-inside">
+          <ul className="list-disc list-inside pl-6">
             {improvements.map((item, i) => (
               <li key={i}>{item}</li>
             ))}
