@@ -19,12 +19,15 @@ export default function JsonFormatter() {
     try {
       let improved = input
       const notes: string[] = []
-
-      improved = improved.replace(
+      const replaced = improved.replace(
         /([{,]\s*)([a-zA-Z0-9_]+)(\s*:)/g,
         '$1"$2"$3'
       )
-      notes.push('Adicionadas aspas em chaves sem aspas.')
+
+      if (replaced !== improved) {
+        improved = replaced
+        notes.push('Adicionadas aspas em chaves sem aspas.')
+      }
 
       const parsed = parseJson(improved)
       const formatted = JSON.stringify(parsed, null, 2)
@@ -43,33 +46,47 @@ export default function JsonFormatter() {
     <PageContainer>
       <h1 className="text-3xl font-semibold mb-2">JSON Formatter</h1>
       <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
-        Esta ferramenta permite formatar e corrigir erros em seu código JSON. 
-        Ela adiciona aspas nas chaves ausentes e estrutura o JSON para facilitar a leitura.
+        Esta ferramenta permite formatar e corrigir erros em seu código JSON.
+        Ela adiciona aspas nas chaves ausentes e estrutura o JSON para facilitar
+        a leitura.
       </p>
 
-      <div className="flex flex-col sm:flex-row gap-6">
-        <div className="flex-1">
-          <h2 className="text-md font-medium mb-2">Entrada</h2>
-          <CodeMirror
-            value={input}
-            height="400px"
-            extensions={[json()]}
-            theme={isDark ? oneDark : 'light'}
-            onChange={(value) => setInput(value)}
-            className="rounded-lg border border-gray-300 dark:border-gray-700 shadow-sm"
-          />
+      <div className="flex flex-col sm:flex-row gap-4">
+        <div className="flex-1 min-w-0">
+          <h2 className="mb-1 text-sm font-medium">Entrada</h2>
+          <div className="border border-gray-300 dark:border-gray-700 shadow-sm bg-white dark:bg-[#1e1e1e]">
+            <CodeMirror
+              value={input}
+              height="400px"
+              extensions={[json()]}
+              theme={isDark ? oneDark : 'light'}
+              onChange={(value) => setInput(value)}
+              style={{
+                whiteSpace: 'pre',
+                overflow: 'auto',
+                width: '100%',
+              }}
+            />
+          </div>
         </div>
 
-        <div className="flex-1">
-          <h2 className="text-md font-medium mb-2">Saída</h2>
-          <CodeMirror
-            value={output || (error ? `Erro: ${error}` : '')}
-            height="400px"
-            readOnly
-            extensions={[json()]}
-            theme={isDark ? oneDark : 'light'}
-            className="rounded-lg border border-gray-300 dark:border-gray-700 shadow-sm"
-          />
+        <div className="flex-1 min-w-0">
+          <h2 className="mb-1 text-sm font-medium">Saída</h2>
+          <div className="border border-gray-300 dark:border-gray-700 shadow-sm bg-white dark:bg-[#1e1e1e]">
+            <CodeMirror
+              value={output || (error ? `Erro: ${error}` : '')}
+              height="400px"
+              readOnly
+              extensions={[json()]}
+              theme={isDark ? oneDark : 'light'}
+              style={{
+                whiteSpace: 'pre',
+                overflow: 'auto',
+                width: '100%',
+              }}
+              styç
+            />
+          </div>
         </div>
       </div>
 
