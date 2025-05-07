@@ -8,7 +8,7 @@ import ThemeContext from '../context/ThemeContext'
 
 import { HiCheckCircle } from 'react-icons/hi'
 import { BiErrorCircle } from 'react-icons/bi'
-import { FiCheck, FiDownload, FiSave, FiSettings } from 'react-icons/fi'
+import { FiCheck, FiSettings } from 'react-icons/fi'
 
 import IconButton from '../components/IconButton'
 
@@ -65,8 +65,10 @@ export default function JsonFormatter() {
 
   return (
     <PageContainer>
-      <h1 className="text-3xl font-semibold mb-2">JSON Formatter</h1>
-      <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
+      <h1 className="text-3xl font-semibold mb-2 text-neutral-900 dark:text-neutral-100">
+        JSON Formatter
+      </h1>
+      <p className="text-lg text-neutral-700 dark:text-neutral-400 mb-6">
         Esta ferramenta permite formatar e corrigir erros em seu código JSON.
         Ela adiciona aspas nas chaves ausentes e estrutura o JSON para facilitar
         a leitura.
@@ -74,101 +76,102 @@ export default function JsonFormatter() {
 
       <div className="flex flex-col sm:flex-row gap-4">
         <div className="flex-1 min-w-0">
-          <h2 className="mb-1 text-sm font-medium">Entrada</h2>
-          <div className="border border-gray-300 dark:border-gray-700 shadow-sm rounded-xl bg-white dark:bg-[#1e1e1e] overflow-hidden">
+          <h2 className="mb-1 text-sm font-medium text-neutral-800 dark:text-neutral-300">
+            Entrada
+          </h2>
+          <div className="border border-neutral-300 dark:border-neutral-700 shadow-sm bg-white dark:bg-neutral-900 rounded-md">
             <CodeMirror
               value={input}
               height="400px"
               extensions={[json()]}
               theme={isDark ? oneDark : 'light'}
               onChange={(value) => setInput(value)}
-              style={{
-                whiteSpace: 'pre',
-                overflow: 'auto',
-                width: '100%',
-              }}
+              style={{ whiteSpace: 'pre', overflow: 'auto', width: '100%' }}
             />
           </div>
         </div>
 
         <div className="flex-1 min-w-0">
-          <h2 className="mb-1 text-sm font-medium">Saída</h2>
-          <div className="border border-gray-300 dark:border-gray-700 shadow-sm rounded-xl bg-white dark:bg-[#1e1e1e] overflow-hidden">
+          <h2 className="mb-1 text-sm font-medium text-neutral-800 dark:text-neutral-300">
+            Saída
+          </h2>
+          <div className="border border-neutral-300 dark:border-neutral-700 shadow-sm bg-white dark:bg-neutral-900 rounded-md">
             <CodeMirror
               value={output || (error ? `Erro: ${error}` : '')}
               height="400px"
               readOnly
               extensions={[json()]}
               theme={isDark ? oneDark : 'light'}
-              style={{
-                whiteSpace: 'pre',
-                overflow: 'auto',
-                width: '100%',
-              }}
+              style={{ whiteSpace: 'pre', overflow: 'auto', width: '100%' }}
             />
           </div>
         </div>
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-4 items-center mt-4">
-        <label className="flex items-center gap-2 text-sm">
+      <div className="flex flex-wrap gap-4 mt-6">
+        <IconButton
+          icon={<FiCheck className="text-xl" />}
+          label="Formatar JSON"
+          onClick={handleFormat}
+          className="bg-blue-600 hover:bg-blue-700 text-white"
+        />
+        <IconButton
+          icon={<FiCheck className="text-xl" />}
+          label="Formatar JSON"
+          onClick={handleFormat}
+          className="bg-blue-600 hover:bg-blue-700 text-white"
+        />
+      </div>
+
+      <div className="flex flex-wrap gap-6 items-center mt-4 text-sm text-neutral-800 dark:text-neutral-200">
+        <label className="flex items-center gap-2">
           <input
             type="checkbox"
             checked={applyBeautify}
             onChange={() => setApplyBeautify(!applyBeautify)}
+            className="accent-blue-600 dark:accent-blue-400"
           />
-          Beautify
+          Usar Beautifier
         </label>
 
-        <label className="flex items-center gap-2 text-sm">
-          <FiSettings />
-          Espaços:
-          <input
-            type="number"
-            min={0}
-            max={8}
+        <label className="flex items-center gap-2">
+          <FiSettings className="text-lg" />
+          Indentação:
+          <select
             value={indentSize}
             onChange={(e) => setIndentSize(parseInt(e.target.value))}
-            className="w-12 px-1 py-0.5 border rounded text-center"
-          />
+            className="bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 rounded px-2 py-1 text-sm"
+            disabled={!applyBeautify}
+          >
+            <option value={2}>2 espaços</option>
+            <option value={4}>4 espaços</option>
+            <option value={6}>6 espaços</option>
+          </select>
         </label>
       </div>
 
-      <div className="mt-6 flex flex-wrap items-center gap-4">
-        <IconButton
-          icon={<FiCheck />}
-          label="Formatar JSON"
-          onClick={handleFormat}
-          className="bg-blue-600 hover:bg-blue-700"
-        />
-
-        <IconButton
-          icon={<FiDownload />}
-          label="Salvar JSON"
-          onClick={handleSave}
-          disabled={!output}
-          className="bg-green-600 hover:bg-green-700"
-        />
-      </div>
-
-      {error && (
-        <div className="mt-6 flex items-center gap-2 text-red-600 text-sm">
-          <BiErrorCircle className="w-5 h-5" />
-          <span>{error}</span>
-        </div>
-      )}
-
       {improvements.length > 0 && (
-        <div className="mt-6 text-green-600 text-sm">
-          <div className="flex items-center gap-2 mb-1">
-            <HiCheckCircle className="w-5 h-5" />
-            <strong>Melhorias aplicadas:</strong>
+        <div className="mt-6 text-green-600 dark:text-green-400 text-sm">
+          <div className="flex items-center gap-2 font-semibold mb-1">
+            <HiCheckCircle className="text-xl" />
+            Melhorias aplicadas:
           </div>
-          <ul className="list-disc list-inside pl-6">
+
+          <ul className="list-disc list-inside pl-6 mt-1">
             {improvements.map((item, i) => (
               <li key={i}>{item}</li>
             ))}
           </ul>
+        </div>
+      )}
+
+      {error && (
+        <div className="mt-6 p-4 border border-red-500 bg-red-950 text-red-300 rounded-md text-sm flex items-start gap-2">
+          <BiErrorCircle className="text-2xl mt-0.5" />
+          <div>
+            <strong className="block mb-0.5">Erro ao processar o JSON:</strong>
+            {error}
+          </div>
         </div>
       )}
     </PageContainer>
