@@ -27,15 +27,17 @@
         "errorTitle": "Erro ao processar o JSON:"
     },
     "base64": {
-        "title": "Codificador/Decodificador Base64",
-        "description": "Codifique texto em Base64 ou decodifique Base64 para texto legível.",
-        "input": "Texto ou Base64",
-        "output": "Resultado",
+        "title": "Base64 Tool",
+        "description": "Codifique e decodifique dados em base64.",
+        "input": "Entrada",
+        "output": "Saída",
         "encode": "Codificar",
         "decode": "Decodificar",
         "copy": "Copiar",
         "save": "Salvar",
-        "errorEncode": "Erro ao codificar. Verifique se o texto está correto.",
-        "errorDecode": "Erro ao decodificar. O conteúdo não parece ser Base64 válido."
+        "errorEncode": "Erro ao codificar em base64.",
+        "errorDecode": "Erro ao decodificar em base64.",
+        "encoding": "Codificação",
+        "charsetNote": "*Somente suporte para codificação no Decode."
     }
 }

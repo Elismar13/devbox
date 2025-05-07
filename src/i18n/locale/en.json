@@ -25,5 +25,19 @@
         "spaces": "{{count}} spaces",
         "appliedImprovements": "Applied improvements:",
         "errorTitle": "Formatting error"
-      }
+    },
+    "base64": {
+        "title": "Base64 Tool",
+        "description": "Encode and decode data in Base64.",
+        "input": "Input",
+        "output": "Output",
+        "encode": "Encode",
+        "decode": "Decode",
+        "copy": "Copy",
+        "save": "Save",
+        "errorEncode": "Error encoding in Base64.",
+        "errorDecode": "Error decoding from Base64.",
+        "encoding": "Encoding",
+        "charsetNote": "Charset support is only available for Decode."
+    }
 }

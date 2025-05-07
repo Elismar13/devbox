@@ -8,6 +8,7 @@ import { FiDownload, FiCopy, FiCheck } from 'react-icons/fi'
 import IconButton from '../components/IconButton'
 import { CodeEditor } from '../components/CodeEditor'
 import { EditorView } from 'codemirror'
+import { encodeBase64Input, decodeBase64Input } from '../utils/base64'
 
 export default function Base64Tool() {
   const { t } = useTranslation()
@@ -18,11 +19,14 @@ export default function Base64Tool() {
   const themeContext = useContext(ThemeContext)
   const isDark = themeContext?.theme === 'dark'
 
+  const [encoding, setEncoding] = useState('utf-8')
+
   const encodeBase64 = () => {
     try {
-      setOutput(btoa(input))
+      const base64 = encodeBase64Input(input)
+      setOutput(base64)
       setError(null)
-    } catch (err) {
+    } catch (err: any) {
       setOutput('')
       setError(t('base64.errorEncode'))
     }
@@ -30,9 +34,10 @@ export default function Base64Tool() {
 
   const decodeBase64 = () => {
     try {
-      setOutput(atob(input))
+      const decodedText = decodeBase64Input(input, encoding)
+      setOutput(decodedText)
       setError(null)
-    } catch (err) {
+    } catch (er: any) {
       setOutput('')
       setError(t('base64.errorDecode'))
     }
@@ -80,6 +85,26 @@ export default function Base64Tool() {
             extensions={[EditorView.lineWrapping]}
           />
         </div>
+      </div>
+
+      <div className="flex items-center gap-2 mt-4 text-sm text-neutral-800 dark:text-neutral-200">
+        <label htmlFor="encoding" className="font-medium">
+          {t('base64.encoding')}
+        </label>
+        <select
+          id="encoding"
+          value={encoding}
+          onChange={(e) => setEncoding(e.target.value)}
+          className="bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 rounded px-2 py-1"
+        >
+          <option value="utf-8">UTF-8</option>
+          <option value="iso-8859-1">ISO-8859-1</option>
+          <option value="windows-1252">Windows-1252</option>
+          <option value="utf-16">UTF-16</option>
+        </select>
+        <span className="ml-2 text-xs text-neutral-500 dark:text-neutral-400">
+          {t('base64.charsetNote')}
+        </span>
       </div>
 
       <div className="flex flex-wrap gap-4 mt-6">
