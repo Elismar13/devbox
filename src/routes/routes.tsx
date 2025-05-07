@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom'
 import Home from '../pages/Home'
 import JsonFormatter from '../pages/JsonFormatter'
-import Base64 from '../pages/Base64'
+import Base64 from '../pages/Base64Tool'
 import Timestamp from '../pages/Timestamp'
 import Uuid from '../pages/Uuid'
 import RegexTester from '../pages/RegexTester'

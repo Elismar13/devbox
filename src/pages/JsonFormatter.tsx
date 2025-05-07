@@ -9,7 +9,9 @@ import { FiCheck, FiSettings } from 'react-icons/fi'
 
 import IconButton from '../components/IconButton'
 import { improveAndFormatJson } from '../utils/jsonUtils'
-import { JsonEditor } from '../components/JsonEditor'
+import { CodeEditor } from '../components/CodeEditor'
+import { json } from '@codemirror/lang-json'
+
 
 export default function JsonFormatter() {
   const { t } = useTranslation()
@@ -61,20 +63,22 @@ export default function JsonFormatter() {
 
       <div className="flex flex-col sm:flex-row gap-4">
         <div className="flex-1 min-w-0">
-          <JsonEditor
+          <CodeEditor
             label={t('jsonFormatter.input')}
             value={input}
             onChange={setInput}
             isDark={isDark}
+            extensions={[json()]}
           />
         </div>
 
         <div className="flex-1 min-w-0">
-          <JsonEditor
+          <CodeEditor
             label={t('jsonFormatter.output')}
             value={output || (error ? `Erro: ${error}` : '')}
             readOnly
             isDark={isDark}
+            extensions={[json()]}
           />
         </div>
       </div>
