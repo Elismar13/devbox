@@ -12,5 +12,18 @@
         "timestamp": "Timestamp",
         "uuid": "UUID",
         "regexTester": "Regex Tester"
-    }
+    },
+    "jsonFormatter": {
+        "title": "JSON Formatter",
+        "description": "Paste your JSON below and format it with one click. Beautify and fix common issues automatically.",
+        "input": "Input JSON",
+        "output": "Formatted JSON",
+        "format": "Format JSON",
+        "save": "Save JSON",
+        "beautifier": "Apply beautifier",
+        "indentation": "Indentation",
+        "spaces": "{{count}} spaces",
+        "appliedImprovements": "Applied improvements:",
+        "errorTitle": "Formatting error"
+      }
 }

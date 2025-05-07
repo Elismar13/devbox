@@ -1,4 +1,5 @@
 import { useState, useContext } from 'react'
+import { useTranslation } from 'react-i18next'
 import PageContainer from '../components/PageContainer'
 import ThemeContext from '../context/ThemeContext'
 
@@ -11,6 +12,7 @@ import { improveAndFormatJson } from '../utils/jsonUtils'
 import { JsonEditor } from '../components/JsonEditor'
 
 export default function JsonFormatter() {
+  const { t } = useTranslation()
   const [input, setInput] = useState('')
   const [output, setOutput] = useState('')
   const [improvements, setImprovements] = useState<string[]>([])
@@ -34,7 +36,7 @@ export default function JsonFormatter() {
     } catch (err: any) {
       setOutput('')
       setImprovements([])
-      setError(err.message || 'Erro desconhecido')
+      setError(err.message || t('jsonFormatter.errorTitle'))
     }
   }
 
@@ -51,18 +53,16 @@ export default function JsonFormatter() {
   return (
     <PageContainer>
       <h1 className="text-3xl font-semibold mb-2 text-neutral-900 dark:text-neutral-100">
-        JSON Formatter
+        {t('jsonFormatter.title')}
       </h1>
       <p className="text-lg text-neutral-700 dark:text-neutral-400 mb-6">
-        Esta ferramenta permite formatar e corrigir erros em seu código JSON.
-        Ela adiciona aspas nas chaves ausentes e estrutura o JSON para facilitar
-        a leitura.
+        {t('jsonFormatter.description')}
       </p>
 
       <div className="flex flex-col sm:flex-row gap-4">
         <div className="flex-1 min-w-0">
           <JsonEditor
-            label="Entrada"
+            label={t('jsonFormatter.input')}
             value={input}
             onChange={setInput}
             isDark={isDark}
@@ -71,7 +71,7 @@ export default function JsonFormatter() {
 
         <div className="flex-1 min-w-0">
           <JsonEditor
-            label="Saída"
+            label={t('jsonFormatter.output')}
             value={output || (error ? `Erro: ${error}` : '')}
             readOnly
             isDark={isDark}
@@ -82,13 +82,13 @@ export default function JsonFormatter() {
       <div className="flex flex-wrap gap-4 mt-6">
         <IconButton
           icon={<FiCheck className="text-xl" />}
-          label="Formatar JSON"
+          label={t('jsonFormatter.format')}
           onClick={handleFormat}
           className="bg-blue-600 hover:bg-blue-700 text-white"
         />
         <IconButton
           icon={<FiCheck className="text-xl" />}
-          label="Salvar JSON"
+          label={t('jsonFormatter.save')}
           onClick={handleSave}
           className="bg-blue-600 hover:bg-blue-700 text-white"
         />
@@ -102,22 +102,22 @@ export default function JsonFormatter() {
             onChange={() => setApplyBeautify(!applyBeautify)}
             className="accent-blue-600 dark:accent-blue-400"
           />
-          Usar Beautifier
+          {t('jsonFormatter.beautifier')}
         </label>
 
         <label className="flex items-center gap-2">
           <FiSettings className="text-lg" />
-          Indentação:
+          {t('jsonFormatter.indentation')}
           <select
             value={indentSize}
             onChange={(e) => setIndentSize(parseInt(e.target.value))}
             className="bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 rounded px-2 py-1 text-sm"
             disabled={!applyBeautify}
           >
-            <option value={2}>2 espaços</option>
-            <option value={4}>4 espaços</option>
-            <option value={6}>6 espaços</option>
-            <option value={6}>8 espaços</option>
+            <option value={2}>{t('jsonFormatter.spaces', { count: 2 })}</option>
+            <option value={4}>{t('jsonFormatter.spaces', { count: 4 })}</option>
+            <option value={6}>{t('jsonFormatter.spaces', { count: 6 })}</option>
+            <option value={8}>{t('jsonFormatter.spaces', { count: 8 })}</option>
           </select>
         </label>
       </div>
@@ -126,7 +126,7 @@ export default function JsonFormatter() {
         <div className="mt-6 text-green-600 dark:text-green-400 text-sm">
           <div className="flex items-center gap-2 font-semibold mb-1">
             <HiCheckCircle className="text-xl" />
-            Melhorias aplicadas:
+            {t('jsonFormatter.appliedImprovements')}
           </div>
 
           <ul className="list-disc list-inside pl-6 mt-1">
@@ -141,7 +141,9 @@ export default function JsonFormatter() {
         <div className="mt-6 p-4 border border-red-500 bg-red-950 text-red-300 rounded-md text-sm flex items-start gap-2">
           <BiErrorCircle className="text-2xl mt-0.5" />
           <div>
-            <strong className="block mb-0.5">Erro ao processar o JSON:</strong>
+            <strong className="block mb-0.5">
+              {t('jsonFormatter.errorTitle')}
+            </strong>
             {error}
           </div>
         </div>

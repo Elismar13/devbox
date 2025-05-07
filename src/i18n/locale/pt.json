@@ -12,5 +12,18 @@
         "timestamp": "Timestamp",
         "uuid": "UUID",
         "regexTester": "Teste de Regex"
+    },
+    "jsonFormatter": {
+        "title": "Formatador JSON",
+        "description": "Esta ferramenta permite formatar e corrigir erros em seu código JSON. Ela adiciona aspas nas chaves ausentes e estrutura o JSON para facilitar a leitura.",
+        "input": "Entrada",
+        "output": "Saída",
+        "format": "Formatar JSON",
+        "save": "Salvar JSON",
+        "beautifier": "Usar Beautifier",
+        "indentation": "Indentação:",
+        "spaces": "{{count}} espaços",
+        "appliedImprovements": "Melhorias aplicadas:",
+        "errorTitle": "Erro ao processar o JSON:"
     }
 }
