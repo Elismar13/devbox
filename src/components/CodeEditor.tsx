@@ -1,20 +1,23 @@
 import CodeMirror from '@uiw/react-codemirror'
-import { json } from '@codemirror/lang-json'
 import { oneDark } from '@codemirror/theme-one-dark'
 
-export const JsonEditor = ({
-  label,
-  value,
-  onChange,
-  readOnly = false,
-  isDark,
-}: {
+type CodeEditorProps = {
   label: string
   value: string
   onChange?: (value: string) => void
   readOnly?: boolean
   isDark: boolean
-}) => {
+  extensions?: any[] // pode ser vazio, ou custom (ex: json(), xml(), etc)
+}
+
+export const CodeEditor = ({
+  label,
+  value,
+  onChange,
+  readOnly = false,
+  isDark,
+  extensions = [],
+}: CodeEditorProps) => {
   return (
     <div className="flex-1 min-w-0">
       <h2 className="mb-1 text-sm font-medium text-neutral-800 dark:text-neutral-300">
@@ -25,7 +28,7 @@ export const JsonEditor = ({
           value={value}
           height="400px"
           readOnly={readOnly}
-          extensions={[json()]}
+          extensions={extensions}
           theme={isDark ? oneDark : 'light'}
           onChange={onChange}
           style={{ whiteSpace: 'pre', overflow: 'auto', width: '100%' }}
