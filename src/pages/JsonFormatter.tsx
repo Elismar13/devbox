@@ -1,8 +1,4 @@
 import { useState, useContext } from 'react'
-import CodeMirror from '@uiw/react-codemirror'
-import { json } from '@codemirror/lang-json'
-import { oneDark } from '@codemirror/theme-one-dark'
-import parseJson from 'json-parse-even-better-errors'
 import PageContainer from '../components/PageContainer'
 import ThemeContext from '../context/ThemeContext'
 
@@ -11,6 +7,8 @@ import { BiErrorCircle } from 'react-icons/bi'
 import { FiCheck, FiSettings } from 'react-icons/fi'
 
 import IconButton from '../components/IconButton'
+import { improveAndFormatJson } from '../utils/jsonUtils'
+import { JsonEditor } from '../components/JsonEditor'
 
 export default function JsonFormatter() {
   const [input, setInput] = useState('')
@@ -25,24 +23,11 @@ export default function JsonFormatter() {
 
   const handleFormat = () => {
     try {
-      let improved = input
-      const notes: string[] = []
-
-      const replaced = improved.replace(
-        /([{,]\s*)([a-zA-Z0-9_]+)(\s*:)/g,
-        '$1"$2"$3'
+      const { formatted, notes } = improveAndFormatJson(
+        input,
+        applyBeautify,
+        indentSize
       )
-
-      if (replaced !== improved) {
-        improved = replaced
-        notes.push('Adicionadas aspas em chaves sem aspas.')
-      }
-
-      const parsed = parseJson(improved)
-      const formatted = applyBeautify
-        ? JSON.stringify(parsed, null, indentSize)
-        : JSON.stringify(parsed)
-
       setOutput(formatted)
       setImprovements(notes)
       setError(null)
@@ -76,35 +61,21 @@ export default function JsonFormatter() {
 
       <div className="flex flex-col sm:flex-row gap-4">
         <div className="flex-1 min-w-0">
-          <h2 className="mb-1 text-sm font-medium text-neutral-800 dark:text-neutral-300">
-            Entrada
-          </h2>
-          <div className="border border-neutral-300 dark:border-neutral-700 shadow-sm bg-white dark:bg-neutral-900 rounded-md">
-            <CodeMirror
-              value={input}
-              height="400px"
-              extensions={[json()]}
-              theme={isDark ? oneDark : 'light'}
-              onChange={(value) => setInput(value)}
-              style={{ whiteSpace: 'pre', overflow: 'auto', width: '100%' }}
-            />
-          </div>
+          <JsonEditor
+            label="Entrada"
+            value={input}
+            onChange={setInput}
+            isDark={isDark}
+          />
         </div>
 
         <div className="flex-1 min-w-0">
-          <h2 className="mb-1 text-sm font-medium text-neutral-800 dark:text-neutral-300">
-            Saída
-          </h2>
-          <div className="border border-neutral-300 dark:border-neutral-700 shadow-sm bg-white dark:bg-neutral-900 rounded-md">
-            <CodeMirror
-              value={output || (error ? `Erro: ${error}` : '')}
-              height="400px"
-              readOnly
-              extensions={[json()]}
-              theme={isDark ? oneDark : 'light'}
-              style={{ whiteSpace: 'pre', overflow: 'auto', width: '100%' }}
-            />
-          </div>
+          <JsonEditor
+            label="Saída"
+            value={output || (error ? `Erro: ${error}` : '')}
+            readOnly
+            isDark={isDark}
+          />
         </div>
       </div>
 
@@ -117,8 +88,8 @@ export default function JsonFormatter() {
         />
         <IconButton
           icon={<FiCheck className="text-xl" />}
-          label="Formatar JSON"
-          onClick={handleFormat}
+          label="Salvar JSON"
+          onClick={handleSave}
           className="bg-blue-600 hover:bg-blue-700 text-white"
         />
       </div>
@@ -146,6 +117,7 @@ export default function JsonFormatter() {
             <option value={2}>2 espaços</option>
             <option value={4}>4 espaços</option>
             <option value={6}>6 espaços</option>
+            <option value={6}>8 espaços</option>
           </select>
         </label>
       </div>
