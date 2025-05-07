@@ -6,9 +6,11 @@ import parseJson from 'json-parse-even-better-errors'
 import PageContainer from '../components/PageContainer'
 import ThemeContext from '../context/ThemeContext'
 
-import { HiSparkles, HiCheckCircle } from 'react-icons/hi'
+import { HiCheckCircle } from 'react-icons/hi'
 import { BiErrorCircle } from 'react-icons/bi'
-import { FiSave, FiSettings } from 'react-icons/fi'
+import { FiCheck, FiDownload, FiSave, FiSettings } from 'react-icons/fi'
+
+import IconButton from '../components/IconButton'
 
 export default function JsonFormatter() {
   const [input, setInput] = useState('')
@@ -130,23 +132,24 @@ export default function JsonFormatter() {
             className="w-12 px-1 py-0.5 border rounded text-center"
           />
         </label>
-
-        <button
-          className="flex items-center gap-2 px-4 py-2 text-sm bg-green-600 text-white rounded hover:bg-green-700 transition"
-          onClick={handleSave}
-        >
-          <FiSave />
-          Salvar JSON
-        </button>
       </div>
 
-      <button
-        onClick={handleFormat}
-        className="mt-6 inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-tr from-blue-600 to-indigo-600 text-white text-lg font-semibold rounded-full hover:brightness-110 active:scale-95 transition-all duration-300"
-      >
-        <HiSparkles className="w-5 h-5" />
-        Formatar JSON
-      </button>
+      <div className="mt-6 flex flex-wrap items-center gap-4">
+        <IconButton
+          icon={<FiCheck />}
+          label="Formatar JSON"
+          onClick={handleFormat}
+          className="bg-blue-600 hover:bg-blue-700"
+        />
+
+        <IconButton
+          icon={<FiDownload />}
+          label="Salvar JSON"
+          onClick={handleSave}
+          disabled={!output}
+          className="bg-green-600 hover:bg-green-700"
+        />
+      </div>
 
       {error && (
         <div className="mt-6 flex items-center gap-2 text-red-600 text-sm">
