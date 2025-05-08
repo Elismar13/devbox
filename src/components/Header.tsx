@@ -9,7 +9,7 @@ const tools = [
   { path: '/json-formatter', label: 'jsonFormatter' },
   { path: '/base64', label: 'base64' },
   { path: '/timestamp', label: 'timestamp' },
-  { path: '/uuid', label: 'uuid' },
+  // { path: '/uuid', label: 'uuid' },
   { path: '/regex-tester', label: 'regexTester' }
 ]
 

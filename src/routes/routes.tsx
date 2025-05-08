@@ -13,7 +13,7 @@ export default function AppRoutes() {
       <Route path="/json-formatter" element={<JsonFormatter />} />
       <Route path="/base64" element={<Base64 />} />
       <Route path="/timestamp" element={<Timestamp />} />
-      <Route path="/uuid" element={<Uuid />} />
+      {/* <Route path="/uuid" element={<Uuid />} /> */}
       <Route path="/regex-tester" element={<RegexTester />} />
     </Routes>
   )
