@@ -39,5 +39,21 @@
         "errorDecode": "Error decoding from Base64.",
         "encoding": "Encoding",
         "charsetNote": "Charset support is only available for Decode."
+    },
+    "timestamp": {
+        "title": "Timestamp Converter",
+        "description": "Convert between Unix timestamps and human-readable dates.",
+        "date": "Readable Date",
+        "timestamp": "Unix Timestamp",
+        "unit": "Unit",
+        "seconds": "Seconds",
+        "milliseconds": "Milliseconds",
+        "toTimestamp": "To Timestamp",
+        "toReadable": "To Readable",
+        "now": "Now",
+        "copy": "Copy",
+        "save": "Save",
+        "errorConvertDate": "Invalid date format.",
+        "errorConvertTimestamp": "Invalid timestamp value."
     }
 }

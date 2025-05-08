@@ -39,5 +39,21 @@
         "errorDecode": "Erro ao decodificar em base64.",
         "encoding": "Codificação",
         "charsetNote": "*Somente suporte para codificação no Decode."
+    },
+    "timestamp": {
+        "title": "Conversor de Timestamp",
+        "description": "Converta entre timestamps Unix e datas legíveis.",
+        "date": "Data legível",
+        "timestamp": "Timestamp Unix",
+        "unit": "Unidade",
+        "seconds": "Segundos",
+        "milliseconds": "Milissegundos",
+        "toTimestamp": "Para Timestamp",
+        "toReadable": "Para legível",
+        "now": "Agora",
+        "copy": "Copiar",
+        "save": "Salvar",
+        "errorConvertDate": "Formato de data inválido.",
+        "errorConvertTimestamp": "Valor de timestamp inválido."
     }
 }
