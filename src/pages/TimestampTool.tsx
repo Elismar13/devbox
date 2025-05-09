@@ -1,3 +1,4 @@
+// src/pages/TimestampTool.tsx
 import { useState, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import PageContainer from '../components/PageContainer'
@@ -6,6 +7,19 @@ import IconButton from '../components/IconButton'
 import { CodeEditor } from '../components/CodeEditor'
 import { FiClock, FiCopy, FiDownload, FiRefreshCw } from 'react-icons/fi'
 import { EditorView } from 'codemirror'
+import dayjs from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
+
+const PRESET_FORMATS = [
+  'YYYY-MM-DD HH:mm:ss',
+  'DD/MM/YYYY HH:mm:ss',
+  'MM/DD/YYYY hh:mm A',
+  'YYYY-MM-DD',
+  'HH:mm:ss',
+  'custom'
+]
+
+dayjs.extend(customParseFormat)
 
 export default function TimestampTool() {
   const { t } = useTranslation()
@@ -13,14 +27,19 @@ export default function TimestampTool() {
   const [readableDate, setReadableDate] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [format, setFormat] = useState<'seconds' | 'milliseconds'>('seconds')
+  const [selectedFormat, setSelectedFormat] = useState('YYYY-MM-DD HH:mm:ss')
+  const [customFormat, setCustomFormat] = useState('YYYY-MM-DD HH:mm:ss')
 
   const themeContext = useContext(ThemeContext)
   const isDark = themeContext?.theme === 'dark'
 
+  const currentFormat = selectedFormat === 'custom' ? customFormat : selectedFormat
+
   const handleToTimestamp = () => {
     try {
-      const date = new Date(readableDate)
-      const unix = format === 'milliseconds' ? date.getTime() : Math.floor(date.getTime() / 1000)
+      const date = dayjs(readableDate, currentFormat, true)
+      if (!date.isValid()) throw new Error('Invalid date')
+      const unix = format === 'milliseconds' ? date.valueOf() : Math.floor(date.valueOf() / 1000)
       setTimestamp(unix.toString())
       setError(null)
     } catch {
@@ -33,8 +52,9 @@ export default function TimestampTool() {
     try {
       const value = parseInt(timestamp)
       const ts = format === 'milliseconds' ? value : value * 1000
-      const date = new Date(ts)
-      setReadableDate(date.toISOString().replace('T', ' ').slice(0, 19))
+      const date = dayjs(ts)
+      if (!date.isValid()) throw new Error('Invalid timestamp')
+      setReadableDate(date.format(currentFormat))
       setError(null)
     } catch {
       setReadableDate('')
@@ -43,10 +63,10 @@ export default function TimestampTool() {
   }
 
   const handleNow = () => {
-    const now = new Date()
-    const unix = format === 'milliseconds' ? now.getTime() : Math.floor(now.getTime() / 1000)
+    const now = dayjs()
+    const unix = format === 'milliseconds' ? now.valueOf() : Math.floor(now.valueOf() / 1000)
     setTimestamp(unix.toString())
-    setReadableDate(now.toISOString().replace('T', ' ').slice(0, 19))
+    setReadableDate(now.format(currentFormat))
   }
 
   const handleCopy = () => {
@@ -93,19 +113,47 @@ export default function TimestampTool() {
         </div>
       </div>
 
-      <div className="flex items-center gap-2 mt-4 text-sm text-neutral-800 dark:text-neutral-200">
-        <label htmlFor="format" className="font-medium">
-          {t('timestamp.unit')}
-        </label>
-        <select
-          id="format"
-          value={format}
-          onChange={(e) => setFormat(e.target.value as 'seconds' | 'milliseconds')}
-          className="bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 rounded px-2 py-1"
-        >
-          <option value="seconds">{t('timestamp.seconds')}</option>
-          <option value="milliseconds">{t('timestamp.milliseconds')}</option>
-        </select>
+      <div className="flex flex-col sm:flex-row gap-4 mt-4">
+        <div className="flex items-center gap-2 text-sm text-neutral-800 dark:text-neutral-200">
+          <label htmlFor="format" className="font-medium">
+            {t('timestamp.unit')}
+          </label>
+          <select
+            id="format"
+            value={format}
+            onChange={(e) => setFormat(e.target.value as 'seconds' | 'milliseconds')}
+            className="bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 rounded px-2 py-1"
+          >
+            <option value="seconds">{t('timestamp.seconds')}</option>
+            <option value="milliseconds">{t('timestamp.milliseconds')}</option>
+          </select>
+        </div>
+
+        <div className="flex items-center gap-2 text-sm text-neutral-800 dark:text-neutral-200">
+          <label htmlFor="format-preset" className="font-medium">
+            {t('timestamp.format')}
+          </label>
+          <select
+            id="format-preset"
+            value={selectedFormat}
+            onChange={(e) => setSelectedFormat(e.target.value)}
+            className="bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 rounded px-2 py-1"
+          >
+            {PRESET_FORMATS.map((fmt) => (
+              <option key={fmt} value={fmt}>{fmt}</option>
+            ))}
+          </select>
+        </div>
+
+        {selectedFormat === 'custom' && (
+          <input
+            type="text"
+            placeholder="YYYY-MM-DD HH:mm:ss"
+            value={customFormat}
+            onChange={(e) => setCustomFormat(e.target.value)}
+            className="bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 rounded px-2 py-1 w-full"
+          />
+        )}
       </div>
 
       <div className="flex flex-wrap gap-4 mt-6">
