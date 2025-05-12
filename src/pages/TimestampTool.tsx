@@ -1,4 +1,3 @@
-// src/pages/TimestampTool.tsx
 import { useState, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import PageContainer from '../components/PageContainer'
@@ -13,8 +12,9 @@ import {
   generatePlaceholder,
   convertToReadable,
   convertToTimestamp,
-  generateNowValues
+  generateNowValues,
 } from '../utils/timestamp'
+import { SelectField } from '../components/SelectField'
 
 const PRESET_FORMATS = [
   'YYYY-MM-DD HH:mm:ss',
@@ -35,6 +35,9 @@ export default function TimestampTool() {
   const [format, setFormat] = useState<'seconds' | 'milliseconds'>('seconds')
   const [selectedFormat, setSelectedFormat] = useState('YYYY-MM-DD HH:mm:ss')
   const [customFormat, setCustomFormat] = useState('YYYY-MM-DD HH:mm:ss')
+  const [conversionType, setConversionType] = useState<
+    'timestampToUnix' | 'unixToTimestamp'
+  >('timestampToUnix')
 
   const themeContext = useContext(ThemeContext)
   const isDark = themeContext?.theme === 'dark'
@@ -42,41 +45,48 @@ export default function TimestampTool() {
   const currentFormat =
     selectedFormat === 'custom' ? customFormat : selectedFormat
 
-  const { exampleReadable, exampleTimestamp } = generatePlaceholder(selectedFormat, customFormat, format);
-
-const handleToTimestamp = () => {
-  try {
-    const result = convertToTimestamp(readableDate, format, currentFormat)
-    setTimestamp(result.join('\n'))
-    setError(null)
-  } catch {
-    setTimestamp('')
-    setError(t('timestamp.errorConvertDate'))
-  }
-}
-
-const handleToReadable = () => {
-  try {
-    const result = convertToReadable(timestamp, format, currentFormat)
-    setReadableDate(result.join('\n'))
-    setError(null)
-  } catch {
-    setReadableDate('')
-    setError(t('timestamp.errorConvertTimestamp'))
-  }
-}
-
-const handleNow = () => {
-  const lineCount = Math.max(
-    readableDate.split('\n').length,
-    timestamp.split('\n').length,
-    1
+  const { exampleReadable, exampleTimestamp } = generatePlaceholder(
+    selectedFormat,
+    customFormat,
+    format
   )
-  const { timestamps, readables } = generateNowValues(format, currentFormat, lineCount)
-  setTimestamp(timestamps)
-  setReadableDate(readables)
-}
 
+  const handleToTimestamp = () => {
+    try {
+      const result = convertToTimestamp(readableDate, format, currentFormat)
+      setTimestamp(result.join('\n'))
+      setError(null)
+    } catch {
+      setTimestamp('')
+      setError(t('timestamp.errorConvertDate'))
+    }
+  }
+
+  const handleToReadable = () => {
+    try {
+      const result = convertToReadable(timestamp, format, currentFormat)
+      setReadableDate(result.join('\n'))
+      setError(null)
+    } catch {
+      setReadableDate('')
+      setError(t('timestamp.errorConvertTimestamp'))
+    }
+  }
+
+  const handleNow = () => {
+    const lineCount = Math.max(
+      readableDate.split('\n').length,
+      timestamp.split('\n').length,
+      1
+    )
+    const { timestamps, readables } = generateNowValues(
+      format,
+      currentFormat,
+      lineCount
+    )
+    setTimestamp(timestamps)
+    setReadableDate(readables)
+  }
 
   const handleCopy = () => {
     navigator.clipboard.writeText(timestamp || readableDate)
@@ -100,6 +110,19 @@ const handleNow = () => {
       <p className="text-lg text-neutral-700 dark:text-neutral-400 mb-6">
         {t('timestamp.description')}
       </p>
+
+      <div className="flex items-center gap-2 text-sm text-neutral-800 dark:text-neutral-200">
+        <SelectField
+          id="timestamp-conversion"
+          label={t('timestamp.conversion')}
+          value={conversionType}
+          onChange={setConversionType}
+          options={[
+            { label: t('timestamp.timestampToUnix'), value: 'timestampToUnix' },
+            { label: t('timestamp.unixToTimestamp'), value: 'unixToTimestamp' },
+          ]}
+        />
+      </div>
 
       <div className="flex flex-col sm:flex-row gap-4">
         <div className="flex-1 min-w-0">
@@ -125,40 +148,23 @@ const handleNow = () => {
       </div>
 
       <div className="flex flex-col sm:flex-row gap-4 mt-4">
-        <div className="flex items-center gap-2 text-sm text-neutral-800 dark:text-neutral-200">
-          <label htmlFor="format" className="font-medium">
-            {t('timestamp.unit')}
-          </label>
-          <select
-            id="format"
-            value={format}
-            onChange={(e) =>
-              setFormat(e.target.value as 'seconds' | 'milliseconds')
-            }
-            className="bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 rounded px-2 py-1"
-          >
-            <option value="seconds">{t('timestamp.seconds')}</option>
-            <option value="milliseconds">{t('timestamp.milliseconds')}</option>
-          </select>
-        </div>
-
-        <div className="flex items-center gap-2 text-sm text-neutral-800 dark:text-neutral-200">
-          <label htmlFor="format-preset" className="font-medium">
-            {t('timestamp.format')}
-          </label>
-          <select
-            id="format-preset"
-            value={selectedFormat}
-            onChange={(e) => setSelectedFormat(e.target.value)}
-            className="bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 rounded px-2 py-1"
-          >
-            {PRESET_FORMATS.map((fmt) => (
-              <option key={fmt} value={fmt}>
-                {fmt}
-              </option>
-            ))}
-          </select>
-        </div>
+        <SelectField
+          id="format"
+          label={t('timestamp.unit')}
+          value={format}
+          onChange={(val) => setFormat(val)}
+          options={[
+            { label: t('timestamp.seconds'), value: 'seconds' },
+            { label: t('timestamp.milliseconds'), value: 'milliseconds' },
+          ]}
+        />
+        <SelectField
+          id="format-preset"
+          label={t('timestamp.format')}
+          value={selectedFormat}
+          onChange={setSelectedFormat}
+          options={PRESET_FORMATS.map((fmt) => ({ label: fmt, value: fmt }))}
+        />
 
         {selectedFormat === 'custom' && (
           <input
