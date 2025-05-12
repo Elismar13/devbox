@@ -4,6 +4,7 @@ import { oneDark } from '@codemirror/theme-one-dark'
 type CodeEditorProps = {
   label: string
   value: string
+  placeholder?: string
   onChange?: (value: string) => void
   readOnly?: boolean
   isDark: boolean
@@ -13,6 +14,7 @@ type CodeEditorProps = {
 export const CodeEditor = ({
   label,
   value,
+  placeholder,
   onChange,
   readOnly = false,
   isDark,
@@ -31,6 +33,7 @@ export const CodeEditor = ({
           extensions={extensions}
           theme={isDark ? oneDark : 'light'}
           onChange={onChange}
+          placeholder={placeholder}
           style={{ whiteSpace: 'pre', overflow: 'auto', width: '100%' }}
         />
       </div>

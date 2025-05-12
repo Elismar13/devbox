@@ -9,6 +9,7 @@ import { FiClock, FiCopy, FiDownload, FiRefreshCw } from 'react-icons/fi'
 import { EditorView } from 'codemirror'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
+import { generatePlaceholder } from '../utils/timestamp'
 
 const PRESET_FORMATS = [
   'YYYY-MM-DD HH:mm:ss',
@@ -36,12 +37,7 @@ export default function TimestampTool() {
   const currentFormat =
     selectedFormat === 'custom' ? customFormat : selectedFormat
 
-  const now = dayjs()
-  const exampleReadable = now.format(currentFormat)
-  const exampleTimestamp =
-    format === 'milliseconds'
-      ? now.valueOf().toString()
-      : Math.floor(now.valueOf() / 1000).toString()
+  const { exampleReadable, exampleTimestamp } = generatePlaceholder(selectedFormat, customFormat, format);
 
   const handleToTimestamp = () => {
     try {
