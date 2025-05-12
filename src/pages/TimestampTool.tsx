@@ -9,7 +9,12 @@ import { FiClock, FiCopy, FiDownload, FiRefreshCw } from 'react-icons/fi'
 import { EditorView } from 'codemirror'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
-import { generatePlaceholder } from '../utils/timestamp'
+import {
+  generatePlaceholder,
+  convertToReadable,
+  convertToTimestamp,
+  generateNowValues
+} from '../utils/timestamp'
 
 const PRESET_FORMATS = [
   'YYYY-MM-DD HH:mm:ss',
@@ -39,57 +44,39 @@ export default function TimestampTool() {
 
   const { exampleReadable, exampleTimestamp } = generatePlaceholder(selectedFormat, customFormat, format);
 
-  const handleToTimestamp = () => {
-    try {
-      const lines = readableDate.split('\n')
-      const results = lines.map((line) => {
-        const date = dayjs(line.trim(), currentFormat, true)
-        if (!date.isValid()) throw new Error('Invalid date')
-        return format === 'milliseconds'
-          ? date.valueOf().toString()
-          : Math.floor(date.valueOf() / 1000).toString()
-      })
-      setTimestamp(results.join('\n'))
-      setError(null)
-    } catch {
-      setTimestamp('')
-      setError(t('timestamp.errorConvertDate'))
-    }
+const handleToTimestamp = () => {
+  try {
+    const result = convertToTimestamp(readableDate, format, currentFormat)
+    setTimestamp(result.join('\n'))
+    setError(null)
+  } catch {
+    setTimestamp('')
+    setError(t('timestamp.errorConvertDate'))
   }
+}
 
-  const handleToReadable = () => {
-    try {
-      const lines = timestamp.split('\n')
-      const results = lines.map((line) => {
-        const value = parseInt(line.trim())
-        const ts = format === 'milliseconds' ? value : value * 1000
-        const date = dayjs(ts)
-        if (!date.isValid()) throw new Error('Invalid timestamp')
-        return date.format(currentFormat)
-      })
-      setReadableDate(results.join('\n'))
-      setError(null)
-    } catch {
-      setReadableDate('')
-      setError(t('timestamp.errorConvertTimestamp'))
-    }
+const handleToReadable = () => {
+  try {
+    const result = convertToReadable(timestamp, format, currentFormat)
+    setReadableDate(result.join('\n'))
+    setError(null)
+  } catch {
+    setReadableDate('')
+    setError(t('timestamp.errorConvertTimestamp'))
   }
+}
 
-  const handleNow = () => {
-    const now = dayjs()
-    const unix =
-      format === 'milliseconds'
-        ? now.valueOf()
-        : Math.floor(now.valueOf() / 1000)
-    const formatted = now.format(currentFormat)
-    const lineCount = Math.max(
-      readableDate.split('\n').length,
-      timestamp.split('\n').length,
-      1
-    )
-    setTimestamp(Array(lineCount).fill(unix.toString()).join('\n'))
-    setReadableDate(Array(lineCount).fill(formatted).join('\n'))
-  }
+const handleNow = () => {
+  const lineCount = Math.max(
+    readableDate.split('\n').length,
+    timestamp.split('\n').length,
+    1
+  )
+  const { timestamps, readables } = generateNowValues(format, currentFormat, lineCount)
+  setTimestamp(timestamps)
+  setReadableDate(readables)
+}
+
 
   const handleCopy = () => {
     navigator.clipboard.writeText(timestamp || readableDate)
@@ -189,13 +176,11 @@ export default function TimestampTool() {
           icon={<FiClock className="text-xl" />}
           label={t('timestamp.toTimestamp')}
           onClick={handleToTimestamp}
-          className="bg-blue-600 hover:bg-blue-700 text-white"
         />
         <IconButton
           icon={<FiClock className="text-xl" />}
           label={t('timestamp.toReadable')}
           onClick={handleToReadable}
-          className="bg-blue-600 hover:bg-blue-700 text-white"
         />
         <IconButton
           icon={<FiRefreshCw className="text-xl" />}
