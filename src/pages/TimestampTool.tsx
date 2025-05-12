@@ -16,7 +16,7 @@ const PRESET_FORMATS = [
   'MM/DD/YYYY hh:mm A',
   'YYYY-MM-DD',
   'HH:mm:ss',
-  'custom'
+  'custom',
 ]
 
 dayjs.extend(customParseFormat)
@@ -33,14 +33,27 @@ export default function TimestampTool() {
   const themeContext = useContext(ThemeContext)
   const isDark = themeContext?.theme === 'dark'
 
-  const currentFormat = selectedFormat === 'custom' ? customFormat : selectedFormat
+  const currentFormat =
+    selectedFormat === 'custom' ? customFormat : selectedFormat
+
+  const now = dayjs()
+  const exampleReadable = now.format(currentFormat)
+  const exampleTimestamp =
+    format === 'milliseconds'
+      ? now.valueOf().toString()
+      : Math.floor(now.valueOf() / 1000).toString()
 
   const handleToTimestamp = () => {
     try {
-      const date = dayjs(readableDate, currentFormat, true)
-      if (!date.isValid()) throw new Error('Invalid date')
-      const unix = format === 'milliseconds' ? date.valueOf() : Math.floor(date.valueOf() / 1000)
-      setTimestamp(unix.toString())
+      const lines = readableDate.split('\n')
+      const results = lines.map((line) => {
+        const date = dayjs(line.trim(), currentFormat, true)
+        if (!date.isValid()) throw new Error('Invalid date')
+        return format === 'milliseconds'
+          ? date.valueOf().toString()
+          : Math.floor(date.valueOf() / 1000).toString()
+      })
+      setTimestamp(results.join('\n'))
       setError(null)
     } catch {
       setTimestamp('')
@@ -50,11 +63,15 @@ export default function TimestampTool() {
 
   const handleToReadable = () => {
     try {
-      const value = parseInt(timestamp)
-      const ts = format === 'milliseconds' ? value : value * 1000
-      const date = dayjs(ts)
-      if (!date.isValid()) throw new Error('Invalid timestamp')
-      setReadableDate(date.format(currentFormat))
+      const lines = timestamp.split('\n')
+      const results = lines.map((line) => {
+        const value = parseInt(line.trim())
+        const ts = format === 'milliseconds' ? value : value * 1000
+        const date = dayjs(ts)
+        if (!date.isValid()) throw new Error('Invalid timestamp')
+        return date.format(currentFormat)
+      })
+      setReadableDate(results.join('\n'))
       setError(null)
     } catch {
       setReadableDate('')
@@ -64,9 +81,18 @@ export default function TimestampTool() {
 
   const handleNow = () => {
     const now = dayjs()
-    const unix = format === 'milliseconds' ? now.valueOf() : Math.floor(now.valueOf() / 1000)
-    setTimestamp(unix.toString())
-    setReadableDate(now.format(currentFormat))
+    const unix =
+      format === 'milliseconds'
+        ? now.valueOf()
+        : Math.floor(now.valueOf() / 1000)
+    const formatted = now.format(currentFormat)
+    const lineCount = Math.max(
+      readableDate.split('\n').length,
+      timestamp.split('\n').length,
+      1
+    )
+    setTimestamp(Array(lineCount).fill(unix.toString()).join('\n'))
+    setReadableDate(Array(lineCount).fill(formatted).join('\n'))
   }
 
   const handleCopy = () => {
@@ -98,6 +124,7 @@ export default function TimestampTool() {
             label={t('timestamp.date')}
             value={readableDate}
             onChange={setReadableDate}
+            placeholder={exampleReadable}
             isDark={isDark}
             extensions={[EditorView.lineWrapping]}
           />
@@ -107,6 +134,7 @@ export default function TimestampTool() {
             label={t('timestamp.timestamp')}
             value={timestamp}
             onChange={setTimestamp}
+            placeholder={exampleTimestamp}
             isDark={isDark}
             extensions={[EditorView.lineWrapping]}
           />
@@ -121,7 +149,9 @@ export default function TimestampTool() {
           <select
             id="format"
             value={format}
-            onChange={(e) => setFormat(e.target.value as 'seconds' | 'milliseconds')}
+            onChange={(e) =>
+              setFormat(e.target.value as 'seconds' | 'milliseconds')
+            }
             className="bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 rounded px-2 py-1"
           >
             <option value="seconds">{t('timestamp.seconds')}</option>
@@ -140,7 +170,9 @@ export default function TimestampTool() {
             className="bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 rounded px-2 py-1"
           >
             {PRESET_FORMATS.map((fmt) => (
-              <option key={fmt} value={fmt}>{fmt}</option>
+              <option key={fmt} value={fmt}>
+                {fmt}
+              </option>
             ))}
           </select>
         </div>
