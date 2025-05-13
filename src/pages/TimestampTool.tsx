@@ -51,25 +51,21 @@ export default function TimestampTool() {
     format
   )
 
-  const handleToTimestamp = () => {
+  const handleConversion = () => {
     try {
-      const result = convertToTimestamp(readableDate, format, currentFormat)
-      setTimestamp(result.join('\n'))
-      setError(null)
+      if (conversionType === 'timestampToUnix') {
+        const result = convertToTimestamp(readableDate, format, currentFormat)
+        setTimestamp(result.join('\n'))
+        setError(null)
+      } else if (conversionType === 'unixToTimestamp') {
+        const result = convertToReadable(timestamp, format, currentFormat)
+        setReadableDate(result.join('\n'))
+        setError(null)
+      }
     } catch {
       setTimestamp('')
-      setError(t('timestamp.errorConvertDate'))
-    }
-  }
-
-  const handleToReadable = () => {
-    try {
-      const result = convertToReadable(timestamp, format, currentFormat)
-      setReadableDate(result.join('\n'))
-      setError(null)
-    } catch {
       setReadableDate('')
-      setError(t('timestamp.errorConvertTimestamp'))
+      setError(t('timestamp.errorConvert'))
     }
   }
 
@@ -125,24 +121,50 @@ export default function TimestampTool() {
       </div>
 
       <div className="flex flex-col sm:flex-row gap-4">
+        {/* Campo de entrada sempre à esquerda */}
         <div className="flex-1 min-w-0">
           <CodeEditor
-            label={t('timestamp.date')}
-            value={readableDate}
-            onChange={setReadableDate}
-            placeholder={exampleReadable}
+            label={
+              conversionType === 'timestampToUnix'
+                ? t('timestamp.date')
+                : t('timestamp.timestamp')
+            }
+            value={
+              conversionType === 'timestampToUnix' ? readableDate : timestamp
+            }
+            onChange={
+              conversionType === 'timestampToUnix'
+                ? setReadableDate
+                : setTimestamp
+            }
+            placeholder={
+              conversionType === 'timestampToUnix'
+                ? exampleReadable
+                : exampleTimestamp
+            }
             isDark={isDark}
             extensions={[EditorView.lineWrapping]}
           />
         </div>
+
+        {/* Campo de saída sempre à direita */}
         <div className="flex-1 min-w-0">
           <CodeEditor
-            label={t('timestamp.timestamp')}
-            value={timestamp}
-            onChange={setTimestamp}
-            placeholder={exampleTimestamp}
-            isDark={isDark}
+            label={
+              conversionType === 'timestampToUnix'
+                ? t('timestamp.timestamp')
+                : t('timestamp.date')
+            }
+            value={
+              conversionType === 'timestampToUnix' ? timestamp : readableDate
+            }
+            placeholder={
+              conversionType === 'timestampToUnix'
+                ? exampleTimestamp
+                : exampleReadable
+            }            isDark={isDark}
             extensions={[EditorView.lineWrapping]}
+            readOnly
           />
         </div>
       </div>
@@ -180,13 +202,8 @@ export default function TimestampTool() {
       <div className="flex flex-wrap gap-4 mt-6">
         <IconButton
           icon={<FiClock className="text-xl" />}
-          label={t('timestamp.toTimestamp')}
-          onClick={handleToTimestamp}
-        />
-        <IconButton
-          icon={<FiClock className="text-xl" />}
-          label={t('timestamp.toReadable')}
-          onClick={handleToReadable}
+          label={t('timestamp.convert')}
+          onClick={handleConversion}
         />
         <IconButton
           icon={<FiRefreshCw className="text-xl" />}
