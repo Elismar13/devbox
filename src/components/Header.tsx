@@ -1,12 +1,12 @@
 // src/components/Header.tsx
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import clsx from 'clsx'
+import { cn } from '../utils/classNameJoiner' // opcional: utilitário para classes condicionais
 import DarkModeToggle from './DarkModeToggle'
 
 const tools = [
-  { path: '/', label: 'home' },
-  { path: '/json-formatter', label: 'jsonFormatter' },
+  // { path: '/', label: 'home' },
+  { path: '/', label: 'jsonFormatter' },
   { path: '/base64', label: 'base64' },
   { path: '/timestamp', label: 'timestamp' },
   // { path: '/uuid', label: 'uuid' },
@@ -27,7 +27,7 @@ export default function Header() {
             <Link
               key={path}
               to={path}
-              className={clsx(
+              className={cn(
                 'px-3 py-1 rounded transition-colors',
                 location.pathname === path
                   ? 'bg-zinc-300 dark:bg-zinc-700'

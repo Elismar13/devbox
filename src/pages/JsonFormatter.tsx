@@ -4,7 +4,6 @@ import PageContainer from '../components/PageContainer'
 import ThemeContext from '../context/ThemeContext'
 
 import { HiCheckCircle } from 'react-icons/hi'
-import { BiErrorCircle } from 'react-icons/bi'
 import { FiCheck, FiSettings } from 'react-icons/fi'
 
 import IconButton from '../components/IconButton'
