@@ -41,19 +41,22 @@
         "charsetNote": "*Somente suporte para codificação no Decode."
     },
     "timestamp": {
-        "title": "Conversor de Timestamp",
-        "description": "Converta entre timestamps Unix e datas legíveis.",
-        "date": "Data legível",
-        "timestamp": "Timestamp Unix",
-        "unit": "Unidade",
+        "title": "Conversor de Timestamps",
+        "description": "Converta entre timestamps Unix e datas legíveis com diferentes formatos e unidades.",
+        "conversion": "Tipo de Conversão",
+        "timestampToUnix": "Data para Timestamp",
+        "unixToTimestamp": "Timestamp para Data",
+        "date": "Data Legível",
+        "timestamp": "Timestamp",
+        "unit": "Unidade de Tempo",
         "seconds": "Segundos",
         "milliseconds": "Milissegundos",
-        "toTimestamp": "Para Timestamp",
-        "toReadable": "Para legível",
+        "format": "Formato da Data",
+        "convert": "Converter",
         "now": "Agora",
         "copy": "Copiar",
         "save": "Salvar",
-        "errorConvertDate": "Formato de data inválido.",
-        "errorConvertTimestamp": "Valor de timestamp inválido."
+        "error": "Erro na Conversão",
+        "errorConvert": "Não foi possível converter o valor. Verifique o formato da data ou timestamp."
     }
 }

@@ -15,6 +15,7 @@ import {
   generateNowValues,
 } from '../utils/timestamp'
 import { SelectField } from '../components/SelectField'
+import ErrorMessage from '../components/ErrorMessage'
 
 const PRESET_FORMATS = [
   'YYYY-MM-DD HH:mm:ss',
@@ -103,11 +104,11 @@ export default function TimestampTool() {
       <h1 className="text-3xl font-semibold mb-2 text-neutral-900 dark:text-neutral-100">
         {t('timestamp.title')}
       </h1>
-      <p className="text-lg text-neutral-700 dark:text-neutral-400 mb-6">
+      <p className="text-lg text-neutral-700 dark:text-neutral-400">
         {t('timestamp.description')}
       </p>
 
-      <div className="flex items-center gap-2 text-sm text-neutral-800 dark:text-neutral-200">
+      <div className="flex items-center gap-2 text-sm text-neutral-800 dark:text-neutral-200 mt-6">
         <SelectField
           id="timestamp-conversion"
           label={t('timestamp.conversion')}
@@ -120,8 +121,7 @@ export default function TimestampTool() {
         />
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-4">
-        {/* Campo de entrada sempre à esquerda */}
+      <div className="flex flex-col sm:flex-row gap-4 mt-4">
         <div className="flex-1 min-w-0">
           <CodeEditor
             label={
@@ -147,7 +147,6 @@ export default function TimestampTool() {
           />
         </div>
 
-        {/* Campo de saída sempre à direita */}
         <div className="flex-1 min-w-0">
           <CodeEditor
             label={
@@ -162,7 +161,8 @@ export default function TimestampTool() {
               conversionType === 'timestampToUnix'
                 ? exampleTimestamp
                 : exampleReadable
-            }            isDark={isDark}
+            }
+            isDark={isDark}
             extensions={[EditorView.lineWrapping]}
             readOnly
           />
@@ -222,11 +222,7 @@ export default function TimestampTool() {
         />
       </div>
 
-      {error && (
-        <div className="mt-6 p-4 border border-red-500 bg-red-950 text-red-300 rounded-md text-sm">
-          {error}
-        </div>
-      )}
+      {error && ErrorMessage({ title: t('timestamp.error'), message: error })}
     </PageContainer>
   )
 }

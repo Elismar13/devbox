@@ -11,7 +11,7 @@ import IconButton from '../components/IconButton'
 import { improveAndFormatJson } from '../utils/jsonUtils'
 import { CodeEditor } from '../components/CodeEditor'
 import { json } from '@codemirror/lang-json'
-
+import ErrorMessage from '../components/ErrorMessage'
 
 export default function JsonFormatter() {
   const { t } = useTranslation()
@@ -141,17 +141,8 @@ export default function JsonFormatter() {
         </div>
       )}
 
-      {error && (
-        <div className="mt-6 p-4 border border-red-500 bg-red-950 text-red-300 rounded-md text-sm flex items-start gap-2">
-          <BiErrorCircle className="text-2xl mt-0.5" />
-          <div>
-            <strong className="block mb-0.5">
-              {t('jsonFormatter.errorTitle')}
-            </strong>
-            {error}
-          </div>
-        </div>
-      )}
+      {error &&
+        ErrorMessage({ title: t('jsonFormatter.errorTitle'), message: error })}
     </PageContainer>
   )
 }
