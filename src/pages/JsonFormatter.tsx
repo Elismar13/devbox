@@ -51,6 +51,8 @@ export default function JsonFormatter() {
     URL.revokeObjectURL(url)
   }
 
+  const placeHolder = '{"hello":"world"}'
+
   return (
     <PageContainer>
       <h1 className="text-3xl font-semibold mb-2 text-neutral-900 dark:text-neutral-100">
@@ -66,6 +68,7 @@ export default function JsonFormatter() {
             label={t('jsonFormatter.input')}
             value={input}
             onChange={setInput}
+            placeholder={placeHolder}
             isDark={isDark}
             extensions={[json()]}
           />
@@ -77,6 +80,7 @@ export default function JsonFormatter() {
             value={output || (error ? `Erro: ${error}` : '')}
             readOnly
             isDark={isDark}
+            placeholder={improveAndFormatJson(placeHolder, applyBeautify, indentSize).formatted}
             extensions={[json()]}
           />
         </div>

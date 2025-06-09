@@ -43,6 +43,8 @@ export default function Base64Tool() {
     }
   }
 
+  const placeholder = 'Hello World'
+
   const handleCopy = () => {
     navigator.clipboard.writeText(output)
   }
@@ -72,6 +74,7 @@ export default function Base64Tool() {
             label={t('base64.input')}
             value={input}
             onChange={setInput}
+            placeholder={placeholder}
             isDark={isDark}
             extensions={[EditorView.lineWrapping]}
           />
