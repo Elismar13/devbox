@@ -10,7 +10,7 @@ const tools = [
   { path: '/base64', label: 'base64' },
   { path: '/timestamp', label: 'timestamp' },
   // { path: '/uuid', label: 'uuid' },
-  { path: '/regex-tester', label: 'regexTester' }
+  { path: '/regex-tester', label: 'regexTester' },
 ]
 
 export default function Header() {
@@ -18,7 +18,7 @@ export default function Header() {
   const location = useLocation()
 
   return (
-    <header className="w-full border-b bg-zinc-100 dark:bg-zinc-900 px-4 py-3">
+    <header className="bg-zinc-100 dark:bg-zinc-800 p-5 shadow-md">
       <div className="flex items-center justify-between max-w-6xl mx-auto">
         <h1 className="text-lg font-semibold">DevBox</h1>
 

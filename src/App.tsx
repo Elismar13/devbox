@@ -7,7 +7,7 @@ function App() {
   return (
     <ThemeProvider>
       <Router>
-        <div className="flex flex-col min-h-screen dark:bg-zinc-900 bg-white text-zinc-900 dark:text-zinc-100">
+        <div className="flex flex-col min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
           <Header />
 
           <main className="w-screen">
