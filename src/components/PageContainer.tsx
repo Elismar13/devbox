@@ -6,7 +6,7 @@ interface PageContainerProps {
 
 export default function PageContainer({ children }: PageContainerProps) {
   return (
-    <div className="w-full">
+    <div className="w-full px-2">
       {children}
     </div>
   )

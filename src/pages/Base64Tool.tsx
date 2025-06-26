@@ -76,7 +76,7 @@ export default function Base64Tool() {
         {t('base64.description')}
       </p>
 
-      <div className="flex flex-col sm:flex-row gap-4">
+      <div className="flex flex-col lg:flex-row gap-4">
         <div className="flex-1 min-w-0">
           <CodeEditor
             label={t('base64.input')}

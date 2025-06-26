@@ -28,19 +28,19 @@ export default function Header() {
           <div className="w-8 h-8 rounded-md bg-indigo-600 flex items-center justify-center">
             <span className="text-white font-bold text-sm">DB</span>
           </div>
-          <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100 hidden sm:block">
+          <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100 hidden lg:block">
             DevBox
           </h1>
         </Link>
 
         {/* Navegação */}
-        <nav className="hidden sm:flex items-center gap-1 p-1 rounded-lg">
+        <nav className="hidden lg:flex items-center gap-1 p-1 rounded-lg">
           {tools.map(({ path, label }) => (
             <Link
               key={path}
               to={path}
               className={cn(
-                'px-3 py-1.5 text-sm rounded-md transition-colors',
+                'px-2 py-1.5 text-sm rounded-md transition-colors',
                 location.pathname === path
                   ? 'bg-zinc-300 dark:bg-zinc-700 text-indigo-600 dark:text-indigo-400 font-medium'
                   : 'text-zinc-500 dark:text-zinc-400 hover:text-indigo-500 dark:hover:text-indigo-400 hover:bg-zinc-200 dark:hover:bg-zinc-700' // Estado hover
@@ -61,7 +61,7 @@ export default function Header() {
 
       {/* Mobile menu */}
       {isMenuOpen && (
-        <div className="sm:hidden bg-white dark:bg-zinc-900 border-t border-zinc-200 dark:border-zinc-700">
+        <div className="lg:hidden bg-white dark:bg-zinc-900 border-t border-zinc-200 dark:border-zinc-700">
           <div className="max-w-7xl mx-auto px-4 py-2">
             <nav className="flex flex-col gap-1">
               {tools.map(({ path, label }) => (
