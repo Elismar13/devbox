@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { cn } from '../utils/classNameJoiner'
 import DarkModeToggle from './DarkModeToggle'
 import HamburgerMenu from './HamburgerMenu'
+import LanguageSwitcher from './LanguageSwitcher'
 
 const tools = [
   { path: '/', label: 'jsonFormatter' },
@@ -41,8 +42,8 @@ export default function Header() {
               className={cn(
                 'px-3 py-1.5 text-sm rounded-md transition-colors',
                 location.pathname === path
-                  ? 'bg-zinc-100 dark:bg-zinc-700 text-indigo-600 dark:text-indigo-400 font-medium' // Estado ativo
-                  : 'text-zinc-500 dark:text-zinc-400 hover:text-indigo-500 dark:hover:text-indigo-400 hover:bg-zinc-100 dark:hover:bg-zinc-700' // Estado hover
+                  ? 'bg-zinc-300 dark:bg-zinc-700 text-indigo-600 dark:text-indigo-400 font-medium'
+                  : 'text-zinc-500 dark:text-zinc-400 hover:text-indigo-500 dark:hover:text-indigo-400 hover:bg-zinc-200 dark:hover:bg-zinc-700' // Estado hover
               )}
             >
               {t(`sidebar.${label}`)}
@@ -52,6 +53,7 @@ export default function Header() {
 
         {/* Controles */}
         <div className="flex items-center gap-4">
+          <LanguageSwitcher />
           <DarkModeToggle />
           <HamburgerMenu isOpen={isMenuOpen} toggleMenu={toggleMenu} />
         </div>
