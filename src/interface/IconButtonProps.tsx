@@ -6,5 +6,6 @@ export default interface IconButtonProps {
   onClick?: () => void
   disabled?: boolean
   className?: string
-  type?: 'button' | 'submit' | 'reset'
+  type?: 'button' | 'submit' | 'reset',
+  variant?: 'primary' | 'secondary' | 'danger' | 'ghost'
 }

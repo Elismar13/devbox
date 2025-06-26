@@ -4,7 +4,7 @@ import PageContainer from '../components/PageContainer'
 import ThemeContext from '../context/ThemeContext'
 
 import { HiCheckCircle } from 'react-icons/hi'
-import { FiCheck, FiSettings } from 'react-icons/fi'
+import { FiCheck, FiDownload, FiSettings } from 'react-icons/fi'
 
 import IconButton from '../components/IconButton'
 import { improveAndFormatJson } from '../utils/jsonUtils'
@@ -91,13 +91,13 @@ export default function JsonFormatter() {
           icon={<FiCheck className="text-xl" />}
           label={t('jsonFormatter.format')}
           onClick={handleFormat}
-          className="bg-blue-600 hover:bg-blue-700 text-white"
+          variant='primary'
         />
         <IconButton
-          icon={<FiCheck className="text-xl" />}
+          icon={<FiDownload className="text-xl" />}
           label={t('jsonFormatter.save')}
           onClick={handleSave}
-          className="bg-blue-600 hover:bg-blue-700 text-white"
+          variant='primary'
         />
       </div>
 

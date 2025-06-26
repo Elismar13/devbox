@@ -98,7 +98,7 @@ export default function Base64Tool() {
           id="encoding"
           value={encoding}
           onChange={(e) => setEncoding(e.target.value)}
-          className="bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 rounded px-2 py-1"
+          variant="primary"
         >
           <option value="utf-8">UTF-8</option>
           <option value="iso-8859-1">ISO-8859-1</option>
@@ -115,23 +115,25 @@ export default function Base64Tool() {
           icon={<FiCheck className="text-xl" />}
           label={t('base64.encode')}
           onClick={encodeBase64}
-          className="bg-blue-600 hover:bg-blue-700 text-white"
+          variant='primary'
         />
         <IconButton
           icon={<FiCheck className="text-xl" />}
           label={t('base64.decode')}
           onClick={decodeBase64}
-          className="bg-blue-600 hover:bg-blue-700 text-white"
+          variant='primary'
         />
         <IconButton
           icon={<FiCopy className="text-xl" />}
           label={t('base64.copy')}
           onClick={handleCopy}
+          variant='primary'
         />
         <IconButton
           icon={<FiDownload className="text-xl" />}
           label={t('base64.save')}
           onClick={handleSave}
+          variant='primary'
         />
       </div>
 
