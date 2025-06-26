@@ -58,5 +58,12 @@
         "save": "Salvar",
         "error": "Erro na Conversão",
         "errorConvert": "Não foi possível converter o valor. Verifique o formato da data ou timestamp."
+    },
+    "toast": {
+        "saved": "Salvo com sucesso!",
+        "errorSave": "Falha ao salvar arquivo",
+        "copied": "Copiado para a área de transferência",
+        "formatted": "JSON formatado com sucesso",
+        "converted": "Conversão realizada"
     }
 }

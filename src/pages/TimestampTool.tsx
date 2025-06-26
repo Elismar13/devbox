@@ -1,4 +1,5 @@
 import { useState, useContext } from 'react'
+import { toast } from 'react-hot-toast'
 import { useTranslation } from 'react-i18next'
 import PageContainer from '../components/PageContainer'
 import ThemeContext from '../context/ThemeContext'
@@ -87,6 +88,7 @@ export default function TimestampTool() {
 
   const handleCopy = () => {
     navigator.clipboard.writeText(timestamp || readableDate)
+    toast.success(t('toast.copied'))
   }
 
   const handleSave = () => {

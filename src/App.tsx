@@ -2,6 +2,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import Header from './components/Header'
 import AppRoutes from './routes/routes'
 import { ThemeProvider } from './context/ThemeContext'
+import { ToastProvider } from './components/ToastProvider'
 
 function App() {
   return (
@@ -15,6 +16,8 @@ function App() {
               <AppRoutes />
             </div>
           </main>
+
+          <ToastProvider />
         </div>
       </Router>
     </ThemeProvider>

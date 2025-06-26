@@ -1,6 +1,7 @@
 // src/pages/Base64Tool.tsx
 import { useState, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
+import { toast } from 'react-hot-toast'
 import PageContainer from '../components/PageContainer'
 import ThemeContext from '../context/ThemeContext'
 
@@ -47,16 +48,23 @@ export default function Base64Tool() {
 
   const handleCopy = () => {
     navigator.clipboard.writeText(output)
+    toast.success(t('toast.copied'))
   }
 
   const handleSave = () => {
-    const blob = new Blob([output], { type: 'text/plain' })
-    const url = URL.createObjectURL(blob)
-    const link = document.createElement('a')
-    link.href = url
-    link.download = 'base64-output.txt'
-    link.click()
-    URL.revokeObjectURL(url)
+    try {
+      const blob = new Blob([output], { type: 'text/plain' })
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      link.download = 'base64-output.txt'
+      link.click()
+      URL.revokeObjectURL(url)
+      toast.success(t('toast.saved'))
+    } catch (err: any) {
+      toast.error(t('toast.errorSave'))
+      console.log(error)
+    }
   }
 
   return (

@@ -1,5 +1,6 @@
 import { useState, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
+import { toast } from 'react-hot-toast'
 import PageContainer from '../components/PageContainer'
 import ThemeContext from '../context/ThemeContext'
 
@@ -42,13 +43,20 @@ export default function JsonFormatter() {
   }
 
   const handleSave = () => {
-    const blob = new Blob([output], { type: 'application/json' })
-    const url = URL.createObjectURL(blob)
-    const link = document.createElement('a')
-    link.href = url
-    link.download = 'formatted.json'
-    link.click()
-    URL.revokeObjectURL(url)
+    try {
+      const blob = new Blob([output], { type: 'application/json' })
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      link.download = 'formatted.json'
+      link.click()
+      URL.revokeObjectURL(url)
+
+      toast.success(t('toast.saved'))
+    } catch (err: any) {
+      toast.error(t('toast.errorSave'))
+      console.log(error)
+    }
   }
 
   const placeHolder = '{"hello":"world"}'
@@ -80,7 +88,10 @@ export default function JsonFormatter() {
             value={output || (error ? `Erro: ${error}` : '')}
             readOnly
             isDark={isDark}
-            placeholder={improveAndFormatJson(placeHolder, applyBeautify, indentSize).formatted}
+            placeholder={
+              improveAndFormatJson(placeHolder, applyBeautify, indentSize)
+                .formatted
+            }
             extensions={[json()]}
           />
         </div>
@@ -91,13 +102,13 @@ export default function JsonFormatter() {
           icon={<FiCheck className="text-xl" />}
           label={t('jsonFormatter.format')}
           onClick={handleFormat}
-          variant='primary'
+          variant="primary"
         />
         <IconButton
           icon={<FiDownload className="text-xl" />}
           label={t('jsonFormatter.save')}
           onClick={handleSave}
-          variant='primary'
+          variant="primary"
         />
       </div>
 

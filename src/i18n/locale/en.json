@@ -55,5 +55,12 @@
         "save": "Save",
         "errorConvertDate": "Invalid date format.",
         "errorConvertTimestamp": "Invalid timestamp value."
+    },
+    "toast": {
+        "saved": "Saved successfully!",
+        "errorSave": "Failed to save file",
+        "copied": "Copied to clipboard",
+        "formatted": "JSON formatted successfully",
+        "converted": "Conversion completed"
     }
 }
