@@ -10,17 +10,21 @@ import IconButton from '../components/IconButton'
 import { CodeEditor } from '../components/CodeEditor'
 import { EditorView } from 'codemirror'
 import { encodeBase64Input, decodeBase64Input } from '../utils/base64'
+import ErrorMessage from '../components/ErrorMessage'
 
 export default function Base64Tool() {
   const { t } = useTranslation()
   const [input, setInput] = useState('')
   const [output, setOutput] = useState('')
   const [error, setError] = useState<string | null>(null)
+  const [encoding, setEncoding] = useState('utf-8')
 
   const themeContext = useContext(ThemeContext)
   const isDark = themeContext?.theme === 'dark'
 
-  const [encoding, setEncoding] = useState('utf-8')
+  const supportedEncodings = ['utf-8', 'iso-8859-1', 'windows-1252', 'utf-16']
+  const placeholder = 'Start typing or paste your Base64 encoded/decoded text here...'
+
 
   const encodeBase64 = () => {
     try {
@@ -29,7 +33,7 @@ export default function Base64Tool() {
       setError(null)
     } catch (err: any) {
       setOutput('')
-      setError(t('base64.errorEncode'))
+      setError(t('base64.errorEncode', { encoding }))
     }
   }
 
@@ -40,11 +44,9 @@ export default function Base64Tool() {
       setError(null)
     } catch (er: any) {
       setOutput('')
-      setError(t('base64.errorDecode'))
+      setError(t('base64.errorDecode', { encoding: 'UTF-8' }))
     }
   }
-
-  const placeholder = 'Hello World'
 
   const handleCopy = () => {
     navigator.clipboard.writeText(output)
@@ -108,10 +110,11 @@ export default function Base64Tool() {
           onChange={(e) => setEncoding(e.target.value)}
           variant="primary"
         >
-          <option value="utf-8">UTF-8</option>
-          <option value="iso-8859-1">ISO-8859-1</option>
-          <option value="windows-1252">Windows-1252</option>
-          <option value="utf-16">UTF-16</option>
+          {supportedEncodings.map((enc) => (
+            <option key={enc} value={enc}>
+              {enc.toUpperCase()}
+            </option>
+          ))}
         </select>
         <span className="ml-2 text-xs text-neutral-500 dark:text-neutral-400">
           {t('base64.charsetNote')}
@@ -124,32 +127,33 @@ export default function Base64Tool() {
           label={t('base64.encode')}
           onClick={encodeBase64}
           variant='primary'
+          disabled={!input || encoding !== supportedEncodings[0]}
         />
         <IconButton
           icon={<FiCheck className="text-xl" />}
           label={t('base64.decode')}
           onClick={decodeBase64}
           variant='primary'
+          disabled={!input}
         />
         <IconButton
           icon={<FiCopy className="text-xl" />}
           label={t('base64.copy')}
           onClick={handleCopy}
           variant='primary'
+          disabled={!input}
         />
         <IconButton
           icon={<FiDownload className="text-xl" />}
           label={t('base64.save')}
           onClick={handleSave}
           variant='primary'
+          disabled={!input}
         />
       </div>
 
-      {error && (
-        <div className="mt-6 p-4 border border-red-500 bg-red-950 text-red-300 rounded-md text-sm">
-          {error}
-        </div>
-      )}
+      {error && 
+        ErrorMessage({ title: t('jsonFormatter.errorTitle'), message: error })}
     </PageContainer>
   )
 }

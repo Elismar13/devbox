@@ -35,8 +35,8 @@
       "decode": "Decode",
       "copy": "Copy",
       "save": "Save",
-      "errorEncode": "Base64 encoding failed",
-      "errorDecode": "Base64 decoding failed",
+      "errorEncode": "Base64 encoding failed using encoder {{encoding}}",
+      "errorDecode": "Base64 decoding failed using decoder {{encoding}}",
       "encoding": "Character Encoding",
       "charsetNote": "*Charset support only when decoding"
     },

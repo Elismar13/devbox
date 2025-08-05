@@ -35,8 +35,8 @@
       "decode": "Decodificar",
       "copy": "Copiar",
       "save": "Salvar",
-      "errorEncode": "Falha na codificação Base64",
-      "errorDecode": "Falha na decodificação Base64",
+      "errorEncode": "Falha na codificação Base64 com encoder {{encoding}}",
+      "errorDecode": "Falha na decodificação Base64 com decoder {{encoding}}",
       "encoding": "Codificação de Caracteres",
       "charsetNote": "*Suporte a charset apenas na decodificação"
     },
