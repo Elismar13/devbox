@@ -1,54 +1,67 @@
-# React + TypeScript + Vite
+# 🛠️ DevBox
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 📚 Introduction to DevBox
 
-Currently, two official plugins are available:
+DevBox is a web-based toolbox for developers, providing a suite of useful tools for everyday development tasks. With DevBox, you can easily format JSON, convert text to Base64, and more.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🤔 How it Works
 
-## Expanding the ESLint configuration
+DevBox is built as a single-page application (SPA) using React and TypeScript. The application is divided into several tools, each with its own functionality. The tools are designed to be easy to use and provide instant feedback.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 💻 Technologies
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+* **Frontend:** React, TypeScript, Tailwind CSS
+* **Backend:** None (client-side only)
+* **Dependencies:**
+	+ `react-i18next` for internationalization
+	+ `react-hot-toast` for toast notifications
+	+ `codemirror` for code editing
+	+ `json-parse-even-better-errors` for JSON parsing
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 📚 Instructions for Local Development
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### 📝 Prerequisites
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+* Node.js (>= 14)
+* npm (>= 6) or yarn (>= 1)
+* TypeScript (>= 4)
+
+### 🚀 Setup
+
+1. Clone the repository: `git clone https://github.com/your-username/devbox.git`
+2. Install dependencies: `npm install` or `yarn install`
+3. Start the development server: `npm run dev` or `yarn dev`
+4. Open your web browser and navigate to `http://localhost:5173`
+
+### 📦 Building and Deployment
+
+1. Build the application: `npm run build` or `yarn build`
+2. Deploy the application to your preferred hosting platform (e.g., Vercel, Netlify, etc.)
+3. DevBox is hosted on: https://devboxtools.netlify.app/
+
+## 🎉 Features
+
+* **JSON Formatter:** Format JSON data with indentation and syntax highlighting
+* **Base64 Converter:** Convert text to Base64 and vice versa
+* **Timestamp Converter:** Convert timestamps between different formats
+* **Code Editor:** Edit code with syntax highlighting and auto-completion
+* **Dark mode:** Dark mode support
+
+## 🚧 Roadmap
+
++ Use Github actions to deploy to Vercel
++ Add support for more timestamp formats
++ Improve code editor with more features (e.g., code folding, debugging)
++ Add support for more encoding formats (e.g., hexadecimal, binary)
++ Add support for more tools (e.g., a color picker, a font generator)
++ Implement a user authentication system to save user preferences
+
+## 🤝 Contributing
+
+Contributions are welcome! If you'd like to add a new tool or feature, please submit a pull request with a clear description of your changes.
+
+## 📜 License
+
+DevBox is licensed under the MIT License. See [LICENSE](LICENSE) for details.
+
+Made with ❤️ by Elismar Silva Pereira :wave: [Let's connect!](https://www.linkedin.com/in/elismarsilva/)
