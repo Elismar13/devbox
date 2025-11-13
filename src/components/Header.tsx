@@ -7,7 +7,8 @@ import HamburgerMenu from './HamburgerMenu'
 import LanguageSwitcher from './LanguageSwitcher'
 
 const tools = [
-  { path: '/', label: 'jsonFormatter' },
+  { path: '/', label: 'home' },
+  { path: '/json-formatter', label: 'jsonFormatter' },
   { path: '/base64', label: 'base64' },
   { path: '/timestamp', label: 'timestamp' },
   { path: '/regex-tester', label: 'regexTester' },
@@ -34,7 +35,7 @@ export default function Header() {
         </Link>
 
         {/* Navegação */}
-        <nav className="hidden lg:flex items-center gap-1 p-1 rounded-lg">
+        <nav className="hidden xl:flex items-center gap-1 p-1 rounded-lg">
           {tools.map(({ path, label }) => (
             <Link
               key={path}
@@ -61,7 +62,7 @@ export default function Header() {
 
       {/* Mobile menu */}
       {isMenuOpen && (
-        <div className="lg:hidden bg-white dark:bg-zinc-900 border-t border-zinc-200 dark:border-zinc-700">
+        <div className="xl:hidden bg-white dark:bg-zinc-900 border-t border-zinc-200 dark:border-zinc-700">
           <div className="max-w-7xl mx-auto px-4 py-2">
             <nav className="flex flex-col gap-1">
               {tools.map(({ path, label }) => (

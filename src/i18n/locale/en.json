@@ -1,4 +1,75 @@
 {
+    "home": {
+      "headline": "Your modern, privacy-first developer toolbox",
+      "subheadline": "Format JSON, convert Base64, work with timestamps and more — all locally in your browser.",
+      "badges": {
+        "free": "100% Free",
+        "clientOnly": "Client-side only",
+        "noSignUp": "No sign-up",
+        "openSource": "Open-source"
+      },
+      "cta": {
+        "getStarted": "Start using DevBox",
+        "browseTools": "Browse tools"
+      },
+      "features": {
+        "json": {
+          "title": "JSON Formatter",
+          "desc": "Validate and auto-format, with smart fixes for common mistakes."
+        },
+        "base64": {
+          "title": "Base64 Converter",
+          "desc": "Encode/decode text with copy and download actions."
+        },
+        "timestamp": {
+          "title": "Timestamp Converter",
+          "desc": "Convert between Unix time and human-readable dates."
+        },
+        "i18n": {
+          "title": "Multi-language",
+          "desc": "English and Portuguese support out of the box."
+        },
+        "theme": {
+          "title": "Dark mode",
+          "desc": "Beautiful UI with light/dark themes."
+        },
+        "export": {
+          "title": "Export & Copy",
+          "desc": "Quickly copy results or download to files."
+        }
+      },
+      "highlights": {
+        "title": "Why DevBox is safe by design",
+        "clientOnly": "Runs entirely in your browser. No servers, no data leaves your machine.",
+        "privacy": "Privacy-friendly by default — perfect for sensitive data.",
+        "performance": "Fast, reactive UI powered by modern web tech.",
+        "extensible": "Easy to add new tools with a consistent page pattern."
+      },
+      "why": {
+        "title": "Built for developers",
+        "p1": "DevBox focuses on the daily tasks developers repeat over and over, with a clean, consistent UX.",
+        "p2": "Everything is built as modular pages using a shared layout and reusable components.",
+        "p3": "Simple to extend — add new tools with minimal boilerplate."
+      },
+      "qa": [
+        {
+          "q": "Is DevBox free?",
+          "a": "Yes, DevBox is completely free and open-source."
+        },
+        {
+          "q": "Does my data go to a server?",
+          "a": "No. All processing happens locally in your browser."
+        },
+        {
+          "q": "Which browsers are supported?",
+          "a": "Modern Chromium, Firefox, and Safari."
+        },
+        {
+          "q": "How can I request a new tool?",
+          "a": "Open an issue or a pull request on the project repository."
+        }
+      ]
+    },
     "header": {
       "title": "DevBox",
       "dark": "Dark Mode",

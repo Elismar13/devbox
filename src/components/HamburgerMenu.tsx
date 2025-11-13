@@ -8,10 +8,10 @@ export default function HamburgerMenu({
   toggleMenu: () => void
 }) {
   return (
-    <div className="contents lg:hidden">
+    <div className="contents xl:hidden">
       <button
         onClick={() => toggleMenu()}
-        className="p-2 rounded-md lg:hidden hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+        className="p-2 rounded-md xl:hidden hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
         aria-label={isOpen ? 'Close menu' : 'Open menu'}
       >
         {isOpen ? (
