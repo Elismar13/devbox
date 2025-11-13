@@ -95,7 +95,15 @@
       "indentation": "Indentation",
       "spaces": "{{count}} spaces", 
       "appliedImprovements": "Applied fixes:",
-      "errorTitle": "Formatting error:"
+      "errorTitle": "Formatting error:",
+      "autoQuoteKeys": "Auto-quote keys",
+      "removeComments": "Remove comments",
+      "removeTrailingCommas": "Remove trailing commas",
+      "sortKeys": "Sort keys",
+      "sortNone": "None",
+      "sortAsc": "A → Z",
+      "sortDesc": "Z → A",
+      "errorAt": "Error at line {{line}}, column {{column}}"
     },
     "base64": {
       "title": "Base64 Converter",

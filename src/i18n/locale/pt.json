@@ -95,7 +95,15 @@
       "indentation": "Indentação",
       "spaces": "{{count}} espaços",
       "appliedImprovements": "Correções aplicadas:",
-      "errorTitle": "Erro de formatação:"
+      "errorTitle": "Erro de formatação:",
+      "autoQuoteKeys": "Adicionar aspas em chaves",
+      "removeComments": "Remover comentários",
+      "removeTrailingCommas": "Remover vírgulas finais",
+      "sortKeys": "Ordenar chaves",
+      "sortNone": "Nenhuma",
+      "sortAsc": "A → Z",
+      "sortDesc": "Z → A",
+      "errorAt": "Erro na linha {{line}}, coluna {{column}}"
     },
     "base64": {
       "title": "Conversor Base64",
