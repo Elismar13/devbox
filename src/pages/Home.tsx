@@ -67,7 +67,7 @@ export default function Home() {
             <Link
               key={f.k}
               to={f.path ?? '#'}
-              className="group rounded-lg border border-neutral-200 dark:border-neutral-800 p-4 hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors"
+              className="group rounded-lg border border-neutral-200 dark:border-neutral-700 p-4 hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors"
             >
               <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
                 {t(`home.features.${f.k}.title`)}
@@ -94,7 +94,7 @@ export default function Home() {
           ].map((k) => (
             <li
               key={k}
-              className="flex items-start gap-3 p-3 rounded-md border border-neutral-200 dark:border-neutral-800"
+              className="flex items-start gap-3 p-3 rounded-md border border-neutral-200 dark:border-neutral-700"
             >
               <FiCheckCircle className="mt-0.5 text-green-600 dark:text-green-400" />
               <span className="text-neutral-800 dark:text-neutral-200 text-sm">
@@ -122,7 +122,7 @@ export default function Home() {
         <h2 className="text-2xl font-bold mb-3 text-neutral-900 dark:text-neutral-100">
           Q&A
         </h2>
-        <div className="divide-y divide-neutral-200 dark:divide-neutral-800 rounded-md border border-neutral-200 dark:border-neutral-800">
+        <div className="divide-y divide-neutral-200 dark:divide-neutral-800 rounded-md border border-neutral-200 dark:border-neutral-700">
           {(t('home.qa', { returnObjects: true }) as { q: string; a: string }[]).map(
             (item, idx) => (
               <div key={idx} className="p-4">

@@ -12,6 +12,7 @@ import { improveAndFormatJson } from '../utils/jsonUtils'
 import { CodeEditor } from '../components/CodeEditor'
 import { json } from '@codemirror/lang-json'
 import ErrorMessage from '../components/ErrorMessage'
+import { SelectField } from '../components/SelectField'
 
 export default function JsonFormatter() {
   const { t } = useTranslation()
@@ -21,24 +22,35 @@ export default function JsonFormatter() {
   const [error, setError] = useState<string | null>(null)
   const [applyBeautify, setApplyBeautify] = useState(true)
   const [indentSize, setIndentSize] = useState(2)
+  const [autoQuoteKeys, setAutoQuoteKeys] = useState(true)
+  const [removeComments, setRemoveComments] = useState(false)
+  const [removeTrailingCommas, setRemoveTrailingCommas] = useState(false)
+  const [sortKeys, setSortKeys] = useState<'none' | 'asc' | 'desc'>('none')
+  const [errorLine, setErrorLine] = useState<number | null>(null)
+  const [errorColumn, setErrorColumn] = useState<number | null>(null)
 
   const themeContext = useContext(ThemeContext)
   const isDark = themeContext?.theme === 'dark'
 
   const handleFormat = () => {
     try {
-      const { formatted, notes } = improveAndFormatJson(
-        input,
-        applyBeautify,
-        indentSize
-      )
+      const { formatted, notes } = improveAndFormatJson(input, applyBeautify, indentSize, {
+        autoQuoteKeys,
+        sortKeys,
+        removeComments,
+        removeTrailingCommas,
+      })
       setOutput(formatted)
       setImprovements(notes)
       setError(null)
+      setErrorLine(null)
+      setErrorColumn(null)
     } catch (err: any) {
       setOutput('')
       setImprovements([])
       setError(err.message || t('jsonFormatter.errorTitle'))
+      setErrorLine(typeof err.line === 'number' ? err.line : null)
+      setErrorColumn(typeof err.column === 'number' ? err.column : null)
     }
   }
 
@@ -89,8 +101,12 @@ export default function JsonFormatter() {
             readOnly
             isDark={isDark}
             placeholder={
-              improveAndFormatJson(placeHolder, applyBeautify, indentSize)
-                .formatted
+              improveAndFormatJson(placeHolder, applyBeautify, indentSize, {
+                autoQuoteKeys,
+                sortKeys,
+                removeComments,
+                removeTrailingCommas,
+              }).formatted
             }
             extensions={[json()]}
           />
@@ -114,16 +130,6 @@ export default function JsonFormatter() {
 
       <div className="flex flex-wrap gap-6 items-center mt-4 text-sm text-neutral-800 dark:text-neutral-200">
         <label className="flex items-center gap-2">
-          <input
-            type="checkbox"
-            checked={applyBeautify}
-            onChange={() => setApplyBeautify(!applyBeautify)}
-            className="accent-blue-600 dark:accent-blue-400"
-          />
-          {t('jsonFormatter.beautifier')}
-        </label>
-
-        <label className="flex items-center gap-2">
           <FiSettings className="text-lg" />
           {t('jsonFormatter.indentation')}
           <select
@@ -138,6 +144,58 @@ export default function JsonFormatter() {
             <option value={8}>{t('jsonFormatter.spaces', { count: 8 })}</option>
           </select>
         </label>
+        
+        <label className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            checked={applyBeautify}
+            onChange={() => setApplyBeautify(!applyBeautify)}
+            className="accent-blue-600 dark:accent-blue-400"
+          />
+          {t('jsonFormatter.beautifier')}
+        </label>
+
+        <label className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            checked={autoQuoteKeys}
+            onChange={() => setAutoQuoteKeys((v) => !v)}
+            className="accent-blue-600 dark:accent-blue-400"
+          />
+          {t('jsonFormatter.autoQuoteKeys')}
+        </label>
+
+        <label className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            checked={removeComments}
+            onChange={() => setRemoveComments((v) => !v)}
+            className="accent-blue-600 dark:accent-blue-400"
+          />
+          {t('jsonFormatter.removeComments')}
+        </label>
+
+        <label className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            checked={removeTrailingCommas}
+            onChange={() => setRemoveTrailingCommas((v) => !v)}
+            className="accent-blue-600 dark:accent-blue-400"
+          />
+          {t('jsonFormatter.removeTrailingCommas')}
+        </label>
+
+        <SelectField
+          id="sort-keys"
+          label={t('jsonFormatter.sortKeys')}
+          value={sortKeys}
+          onChange={(v) => setSortKeys(v)}
+          options={[
+            { label: t('jsonFormatter.sortNone'), value: 'none' },
+            { label: t('jsonFormatter.sortAsc'), value: 'asc' },
+            { label: t('jsonFormatter.sortDesc'), value: 'desc' },
+          ]}
+        />
       </div>
 
       {improvements.length > 0 && (
@@ -155,8 +213,24 @@ export default function JsonFormatter() {
         </div>
       )}
 
-      {error &&
-        ErrorMessage({ title: t('jsonFormatter.errorTitle'), message: error })}
+      {error && (
+        <div className="mt-4 p-3 rounded-md border border-red-300 dark:border-red-700 bg-red-50 dark:bg-red-900/20">
+          {ErrorMessage({ title: t('jsonFormatter.errorTitle'), message: error })}
+          {(errorLine || errorColumn) && (
+            <p className="text-sm text-red-700 dark:text-red-300 mt-2">
+              {t('jsonFormatter.errorAt', { line: errorLine ?? '-', column: errorColumn ?? '-' })}
+            </p>
+          )}
+          {typeof errorLine === 'number' && errorLine > 0 && (
+            <pre className="mt-2 text-xs overflow-auto bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded p-2">
+              {input.split('\n').slice(Math.max(0, errorLine - 2), errorLine + 1).map((ln, idx) => {
+                const lineNo = errorLine - 1 - 1 + idx + 1 // approximate context numbering
+                return `${lineNo.toString().padStart(4, ' ')} | ${ln}`
+              }).join('\n')}
+            </pre>
+          )}
+        </div>
+      )}
     </PageContainer>
   )
 }
