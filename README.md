@@ -1,5 +1,7 @@
 # 🛠️ DevBox
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/551e1580-568f-4e77-ac6c-a33ec312d327/deploy-status)](https://app.netlify.com/projects/devboxtools/deploys)
+
 ## 📚 Introduction to DevBox
 
 DevBox is a web-based toolbox for developers, providing a suite of useful tools for everyday development tasks. With DevBox, you can easily format JSON, convert text to Base64, and more.
