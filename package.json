@@ -16,6 +16,7 @@
     "dayjs": "^1.11.13",
     "i18next": "^25.0.1",
     "json-parse-even-better-errors": "^4.0.0",
+    "qrcode": "^1.5.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hot-toast": "^2.5.2",

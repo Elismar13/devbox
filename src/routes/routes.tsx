@@ -3,6 +3,8 @@ import JsonFormatter from '../pages/JsonFormatter'
 import Base64 from '../pages/Base64Tool'
 import Timestamp from '../pages/TimestampTool'
 import RegexTester from '../pages/RegexTester'
+import QrCodeTool from '../pages/QrCodeTool'
+import Uuid from '../pages/Uuid'
 import Home from '../pages/Home'
 
 export default function AppRoutes() {
@@ -13,6 +15,8 @@ export default function AppRoutes() {
       <Route path="/base64" element={<Base64 />} />
       <Route path="/timestamp" element={<Timestamp />} />
       <Route path="/regex-tester" element={<RegexTester />} />
+      <Route path="/qr-code" element={<QrCodeTool />} />
+      <Route path="/uuid" element={<Uuid />} />
     </Routes>
   )
 }

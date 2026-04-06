@@ -12,6 +12,8 @@ const tools = [
   { path: '/base64', label: 'base64' },
   { path: '/timestamp', label: 'timestamp' },
   { path: '/regex-tester', label: 'regexTester' },
+  { path: '/qr-code', label: 'qrCode' },
+  { path: '/uuid', label: 'uuid' },
 ]
 
 export default function Header() {

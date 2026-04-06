@@ -1,7 +1,8 @@
 import { useTranslation } from 'react-i18next'
-import PageContainer from '../components/PageContainer'
 import { Link } from 'react-router-dom'
 import { FiCheckCircle } from 'react-icons/fi'
+
+import PageContainer from '../components/PageContainer'
 
 export default function Home() {
   const { t } = useTranslation()
